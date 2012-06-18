@@ -12,8 +12,13 @@ file_list = char({file_list.name});
 num_of_samples = length(file_list);
 sample_per_person = 10;
 num_of_people = num_of_samples/sample_per_person;
+% Toggle this for limited number of files
+num_of_people = 30;
+
+feature_dimension = 576;
 
 palms = createArrays(sample_per_person, [768 576], 'single');
+features = zeros(num_of_people*sample_per_person,feature_dimension);
 
 %% Parallel read files
 tic;
@@ -23,13 +28,12 @@ for current_person = 1:num_of_people
         file_id = (current_person - 1) * 10 + current_sample;
         sample_filename = [data_dir filesep file_list(file_id,:)];
         palms{current_sample} = file2matrix(sample_filename);
+        
+        % Extract feature for this sample
+        features(file_id,:) = mean(palms{current_sample});
     end
-    % Generage a new variable palm_## for all 10 samples of a person.
-    output_object = genvarname(['palm_' num2str(current_person)]);
-    eval([output_object ' = palms;']);
-    % Save that person's data into a .mat file.
-    save([save_dir filesep output_object '.mat'],output_object);
-    % Clear the generated variable.
-    clear -regexp '^palm_';
-    toc;
+%     toc;
 end
+
+save(['output' filesep 'features.mat'], 'features');
+toc;
