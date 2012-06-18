@@ -26,7 +26,7 @@ for current_person = 1:num_of_people
     disp(['Loading data from ' num2str(current_person) ' of ' num2str(num_of_people) ' people.']);
     for current_sample = 1:sample_per_person
         file_id = (current_person - 1) * 10 + current_sample;
-        sample_filename = [data_dir filesep file_list(file_id,:)];
+        sample_filename = strtrim([data_dir filesep file_list(file_id,:)]);
         palms{current_sample} = file2matrix(sample_filename);
         
         % Extract feature for this sample

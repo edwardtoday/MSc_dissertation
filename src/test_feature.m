@@ -1,5 +1,5 @@
 %% Load features
-load('D:\github\MSc_dissertation\src\output\features.mat');
+load(['output' filesep 'features.mat']);
 
 [total,~] = size(features);
 
