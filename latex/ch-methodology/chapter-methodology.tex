@@ -1,0 +1,22 @@
+
+\chapter{Methodology\label{ch:methodology}}
+
+The idea is to extract one or more features from the 3-D information as classifiers. Together with existing classifiers found in existing work in related fields [3,4,9], the new features will be combined to achieve a high performance classifier for personal authentication using Support Vector Machine (SVM).
+
+The sample data has already been collected. There are 8,000 samples from 400 different palms with both hands. Samples of a palm are collected in two separate sessions with an average interval of one month.
+
+![A 3-D palmprint sample](fig/sample.png "A 3-D palmprint sample")
+
+![Contour view of the Region of Interest (ROI)](fig/roi_contour.png "Contour view of the Region of Interest (ROI)")
+
+![Surface view of ROI](fig/roi.png "Surface view of ROI")
+
+Experiments will be done using Matlab.
+
+1. Extract features from each palmprint sample.
+2. A subset of samples will be chosen as test set.
+3. Train an authentication model based on the rest of samples.
+4. Verify the samples in the test set with the trained model against their true identities.
+5. Discuss the performance of the model.
+
+

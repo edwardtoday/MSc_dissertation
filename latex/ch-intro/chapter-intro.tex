@@ -1,8 +1,19 @@
 
 \chapter{Introduction\label{ch:intro}}
 
-This documentclass, \texttt{puthesis.cls}, is setup for a Ph.D. dissertation for Princeton University. The Mudd Library website~\cite{mudd2009} provides detailed specifications for how to format your disseration~\cite{muddthesis2009}. Please review those documents, as the requirements may have changed since this template was created. Also, review the ProQuest Dissertation Guide~\cite{proquest2006}, which has additional formatting rules that are important for the submission of the electronic copy of your dissertation.
+Palmprint has been increasingly recognized as unique and stable biometric characteristics for personal authentication. In the past decade, various methods based on two dimensional (2-D) palmprint have been studied in depth. The 2-D recognition techniques have proved to achieve high accuracy [2].
 
-This template includes many details about the requirements and common practices for writing, printing, and submitting your dissertation. However, this is \textbf{NOT} an official document. It was written by Jeffrey Dwoskin and is current as of May 2010 based on requirements for the Electrical Engineering department, but the requirements may have changed. Please verify all information, deadlines, costs, requirements, and formatting rules with the Mudd Library website~\cite{mudd2009}, with the Graduate School, and with your department.
+In recent years, three dimensional (3-D) palmprint recognition devices emerge and are quite promising because of the additional depth information gathered.
 
-\input{ch-intro/intro_contributions}
+Although the devices has been out for more than two years, most previous matching algorithms treat 3-D information as a supplement to 2-D texture images and used joint matching techniques to increase accuracy [1,5,6,7,8]. Authentication with only the 3-D information has not been thoroughly studied. The amount of useful information carried by the 3-D data is still under investigation.
+
+There are two major challenges:
+
+* 3-D devices, compared to 2-D ones, are lower in resolution.
+* The depth values are susceptible to movements of human hands and are therefore less stable than 2-D texture information of palmprints.
+
+David et al. explore a 3-D palmprint recognition approach by exploiting the 3-D structural information of the palm surface [6, 8]. The structured light imaging is used to acquire the 3-D palmprint data, from which several types of unique features, including mean curvature image, Gaussian curvature image, and surface type, are extracted. A fast feature matching and score-level fusion strategy is proposed for palmprint matching and classification. Wei et al. propose an efficient joint 2D and 3D palmprint matching scheme [5]. The principal line features and palm shape features are extracted and used to accurately align the palmprint, and a couple of matching rules are defined to efficiently use the 2D and 3D features for recognition. The experiments show that the proposed scheme can greatly improve the performance of palmprint verification. Wei et al. also present an efficient scheme for 3-D palmprint recognition [1]. They extract both line and orientation features after calculating and enhancing the mean-curvature image of the 3-D palmprint data. The two types of features are then fused at either score level or feature level for the final 3-D palmprint recognition.
+
+Existing work has been done to utilize the 3-D information for palmprint classification and sorting. The global features proposed for that purpose are fast in matching speed but low in accuracy compared to 2-D techniques.
+
+The major contribution of this paper would be a set of features that can increase the recognition performance of palmprint verification.
