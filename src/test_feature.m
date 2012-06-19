@@ -25,7 +25,7 @@ test_id=unique([
 testingset = features(test_id,:);
 
 %% Find match for each test input
-nearest_id = knnsearch(trainingset, testingset, 'k', 5);
+nearest_id = knnsearch(trainingset, testingset, 'k', 10);
 
 %% Interpret the match to person
 [total_training,~] = size(trainingset);
