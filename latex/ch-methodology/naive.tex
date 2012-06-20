@@ -1,0 +1,8 @@
+\subsection{Naive Matching}
+\label{ssec:methodology:naive}
+
+As the purpose of coarse-level matching is to speed up the identification during retrieval, we can regard it as a continuous classification approach. After mapping the global features’   dimensional vector  , the global features can be used to measure the similarity of two samples as follows:
+                              (16)
+In 3D palmprint identification, we can use the   dimensional global features to carry out coarse-level matching as shown in Fig. 9. If the testing sample passes coarse-level matching, it undergoes fine-level matching using 3D palmprint local features. If it does not pass, it moves on to the next sample in the database and so on until it has accessed the last sample in the database. From (16), we can see that coarse-level matching requires only   times of addition and multiplication which is much faster than fine-level matching using local features. Eq. (17) gives the fine-level matching by Mean Curvature Image (MCI) feature [13]:
+                              (17)
+where symbol “ ” represents the logical AND operation,   and   are the two binarized MCI features. To deal with the translation problem of ROI when calculating the matching score by (17), we will shift two, four, six and eight pixels of the test image along 8 directions: right, left, up, down, left-up, left-down, right-up and right-down, respectively. Adding the non-shift one, we will have   matching scores and the maximum one is selected. Suppose the size of the MCI feature is  , i.e.   and  , from (16) and (17) we can see that coarse-level matching is much faster than fine-level matching.

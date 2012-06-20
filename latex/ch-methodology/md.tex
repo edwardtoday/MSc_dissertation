@@ -1,0 +1,8 @@
+\subsection{Maximum Depth}
+\label{ssec:methodology:md}
+
+MD means the maximum depth value of the 3D palm from a reference plane. The reference plane is decided using a rectangle as shown in the left of Fig. 3 (a). The depth of the reference plane   is the mean depth of the points contained by this rectangle.
+                            (1)
+where   is the depth value of the ith row and jth column point of the 3D ROI,   is the corresponding mask value,  ,  ,   and   respectively denote the start row, end row, start column and end column. The parameters ,  ,   and   were set by experience. The reason we choose this region is that in the 3D ROI it appears to be relatively flat.
+After getting the depth of the reference plane, we find the maximum depth,  , in a region denoted by the right rectangle in Fig. 3 (a) which starts at the 41st row and extends to the 160th row and from the 65th column to the 190th column. The MD can then be calculated easily by (2) as shown in Fig. 3 (b).
+                                      (2)

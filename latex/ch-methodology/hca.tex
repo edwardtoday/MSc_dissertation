@@ -1,0 +1,27 @@
+\subsection{Horizontal Cross-section Area}
+\label{ssec:methodology:hca}
+
+To describe the shape of the 3D palmprint, we use a group of equidistant horizontal planes to cut the 3D ROI as shown in Fig. 4. Fig. 5 shows a 3D ROI and its contour cut by the equidistant horizontal planes. To render the shape clearly, Fig. 5 (a) only shows the 3D ROI image and hides the equidistant horizontal planes. In Fig. 5 (b), the blue curves denote deeper levels, the red curves denote higher levels and the remainder are medium levels. The HCA is defined as the area enclosed by the level curve. From Fig. 5 (b), we can see that most of the deeper level curves are enclosed and the areas are simply connected. These are more stable in response to noise or transformation.
+
+Figure 4. Illustration of the 3D ROI crossed by horizontal planes.
+
+
+(a)                                (b)
+Figure 5. (a) A 3D ROI; (b) Its corresponding contour cutting by the equidistant horizontal planes.
+To get a stable HCA, we take into consideration only the levels from the deepest point to the reference plane, defined in section 3.1. Suppose we divide this region into N levels. Every level   is described with a 200×200 matrix and calculated by (3).
+          (3)
+where   is the depth value of the ith row and jth column point of the 3D ROI and h is the palmprint depth defined by (2).
+To make it more stable, we constrain every level growing from its previous level except the first level. That is
+                      (4)
+where “ ” denotes logical AND,   denotes a morphological dilation operation and   is a disk morphological structuring element whose size can be calculated by   (this is suitable for N = 8 by experience).
+Fig. 6 shows an example of all the levels stacked together. Fig. 7 shows each of the levels separately.
+
+Figure 6. An example of all the levels stacked together when N = 8.
+After getting the cross-sectional levels  , the HCA,   can be easily calculated by
+                                      (5)
+
+
+
+
+
+Figure 7. The cross-sectional area feature (the top two rows are extracted from two samples collected from one palm; and the bottom two rows are extracted from two samples from another palm).

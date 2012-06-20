@@ -1,21 +1,7 @@
 
 \chapter{Methodology\label{ch:methodology}}
 
-The idea is to extract one or more features from the 3-D information as classifiers. Together with existing classifiers found in existing work in related fields~\cite{Xu:2004tt,Yan:2007fv,Samir:2006vj}, the new features will be combined to achieve a high performance classifier for personal authentication using Support Vector Machine (SVM).
-
-The sample data has already been collected. There are 8,000 samples from 400 different palms with both hands. Samples of a palm are collected in two separate sessions with an average interval of one month.
-
-Experiments will be done using Matlab.
-
-1. Extract features from each palmprint sample.
-
-2. A subset of samples will be chosen as test set.
-
-3. Train an authentication model based on the rest of samples.
-
-4. Verify the samples in the test set with the trained model against their true identities.
-
-5. Discuss the performance of the model.
+The process for feature extraction and matching are described in the following sections in the exact order they are applied to samples in the database.
 
 \input{ch-methodology/roiextraction}
 \input{ch-methodology/featurecalc}

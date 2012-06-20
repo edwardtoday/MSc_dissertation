@@ -1,0 +1,25 @@
+\subsection{Dimension Reduction}
+\label{ssec:methodology:lda}
+
+LDA is a state-of-the-art dimensionality reduction technique widely used in classification problems. The objective is to find the optimal projection which simultaneously minimizes the within-class distance and maximizes the between-class distance, thus achieving maximum discrimination (Here, the “class” is used to denote the identity of the subjects, e.g. the samples collected from one palm are regarded as one class). However, the traditional LDA requires the within-class scatter matrix to be nonsingular, which means the sample size should be large enough compared with its dimension, but is not always possible. In this paper, we therefore adopt the orthogonal LDA (OLDA) proposed in [17], where the vectors of the optimal projection are calculated using the training database and the optimal projecting vectors are orthogonal to each other.
+Suppose the 3D ROI has been divided to N levels and that M radial lines are used to represent the level contours. We can list the global features as a column vector,  , with   rows. Given a training database which has n samples and k classes as  , where   and  , adopting OLDA [17] the optimal projection W can be calculated as follows.
+First, the within-class scatter matrix  , the between-class scatter matrix   and total scatter matrix   can be expressed as
+                              (6)
+where
+                           (7)
+                         (8)
+                                         (9)
+where   is the centroid of the ith class  ,   is the centroid of all the training samples ,   and  .
+After calculating  ,   and  , the reduced Singular Value Decomposition (SVD) is applied to  .
+                                     (10)
+Denote   and compute the SVD of B.
+                                          (11)
+Let
+                                              (12)
+                                              (13)
+and denote   the first   columns of the matrix D. Then, compute the QR decomposition of  .
+                                    (14)
+where Q is the desired orthogonal matrix and optimal projection, i.e.  .
+After getting the optimal projection W, we can map the   dimensional vector F to a lower dimensional space
+                                             (15)
+where   is a   dimensional vector with  .

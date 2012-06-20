@@ -18,4 +18,10 @@ David et al. explore a 3-D palmprint recognition approach by exploiting the 3-D 
 
 Existing work has been done to utilize the 3-D information for palmprint classification and sorting. The global features proposed for that purpose are fast in matching speed but low in accuracy compared to 2-D techniques.
 
+%TODO
+In this paper, we propose extracting three novel global features from a 3D palmprint image: Maximum Depth (MD) at the center of the palm, Horizontal Cross-section Area (HCA) at different levels of the palm; and Radial Line Length (RLL) measured from the centroid to the boundary of the 3D palmprint. These features are then used to describe and classify the shape of the 3D palmprint using continuous classification. This involves first reducing the dimensionality of the features by treating these features as a column vector and applying Orthogonal Linear Discriminant Analysis (OLDA) [17]. We then improve the efficiency of palmprint recognition by indexing the database using coarse-level matching and Ranking Support Vector Machine (RSVM) [18]
+
+The rest of the paper is organized as follows. Section 2 describes how we define a region of interest for the 3D palmprint image and then extract our three proposed global features. Section 3 describes how global features can be used in classification in order to speed up identification. Section 4 gives the experimental results and Section 5 concludes the paper.
+
+
 The major contribution of this paper is a set of features that can increase the recognition performance of palmprint verification.
