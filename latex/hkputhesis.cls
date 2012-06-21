@@ -42,13 +42,19 @@
 \newcommand*{\tablespacing}{
   \singlespacing
 }
+\newcommand{\titlesize}{\fontsize{16pt}{20pt}\selectfont} % also used for subsection title
+\newcommand{\chaptersize}{\fontsize{22pt}{28pt}\selectfont}
+\newcommand{\sectionsize}{\fontsize{18pt}{22pt}\selectfont}
+\newcommand{\subsubsectionsize}{\fontsize{14pt}{16pt}\selectfont}
 %% Command inserted into the document immediately after \begin{document} to place all frontmatter
 %%   This was formerly named 'begincmd' and called below in \AtBeginDocument{}
 %%   However, that is not compatible with package 'hyperref'. \tableofcontents needs
 %%   to be declared from within the document itself. 
 \newcommand*{\makefrontmatter}{
 \bodyspacing
-\frontmatter\maketitlepage
+\frontmatter
+\maketitlepage
+\setcounter{page}{1} % As required, the page number of the authorship statement is I
 \makeauthorshipstatement
 \makeacknowledgements
 \makeabstract
@@ -68,24 +74,22 @@
 \def\dedication#1{\gdef\@dedication{#1}}
 \newcommand{\maketitlepage}{{
   \thispagestyle{empty}
-  \vspace*{0in}
+  \vspace*{1.1in}
   \begin{center}
-    \LARGE \@title
+    {\titlesize \textbf{\@title}}
+  \end{center}
+  \vspace*{1.6in}
+  \begin{center}
+    {\titlesize \textbf{\@author}}
+  \end{center}
+  \vspace*{1.2in}
+  \begin{center}
+    {\titlesize \textbf{Master of Science in Software Technology}}
   \end{center}
   \vspace{.6in}
   \extravspace{.6in}
   \begin{center}
-    \@author
-  \end{center}
-  \vspace{1.6in}
-  \extravspace{.6in}
-  \begin{center}
-    Master of Science in Software Technology
-  \end{center}
-  \vspace{.6in}
-  \extravspace{.6in}
-  \begin{center}
-    The Hong Kong Polytechnic University
+    {\titlesize \textbf{The Hong Kong Polytechnic University}}
   \end{center}
   \vspace{.3in}
   \extravspace{.3in}
@@ -98,16 +102,18 @@
   \vspace{.3in}
   \extravspace{.3in}
   \begin{center}
-    \@submitted
+    {\titlesize \textbf{\@submitted}}
   \end{center}
   \clearpage
   }}
 \newcommand*{\makeauthorshipstatement}{
   \newpage
-  \addcontentsline{toc}{section}{Statement of Authorship}
-  \begin{center}
-  \Large \textbf{Statement of Authorship}
-  \end{center}
+  \addcontentsline{toc}{chapter}{Statement of Authorship}
+  \vspace*{24pt}
+  \begin{doublespace}
+  {\titlesize \textbf{Statement of Authorship}}
+  \end{doublespace}
+  \vspace*{12pt}
 
 Except where reference is made in the text of this dissertation, this dissertation contains no material published elsewhere or extracted in whole or in part from a dissertation presented by me for another degree or diploma.
 
@@ -115,20 +121,22 @@ No other person’s work has been used without due acknowledgement in the main t
 
 This dissertation has not been submitted for the award of any other degree or diploma in any other tertiary institution.
 
-\vspace{5cm}
+  \vspace{5cm}
 
-\noindent\rule{.4\linewidth}{0.4pt}
+  \noindent\rule{.4\linewidth}{0.3pt}
 
-Name: \@author
+  Name: \@author
 
-Dated: \today
+  Dated: \today
   \clearpage
 }
 \newcommand*{\makeabstract}{
   \newpage
-  \addcontentsline{toc}{section}{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
   \vspace*{24pt}
-  {\Large \textbf{Abstract}}
+  \begin{doublespace}
+  {\titlesize \textbf{Abstract}}
+  \end{doublespace}
   \vspace*{12pt}
   \@abstract
   \clearpage
@@ -142,10 +150,12 @@ Dated: \today
     \else
     \fi
 
-    \addcontentsline{toc}{section}{Acknowledgements}
-    \begin{center}
-      \Large \textbf{Acknowledgements}
-    \end{center}
+    \addcontentsline{toc}{chapter}{Acknowledgements}
+    \vspace*{24pt}
+	\begin{doublespace}
+    {\titlesize \textbf{Acknowledgements}}
+    \end{doublespace}
+    \vspace*{12pt}
     \@acknowledgements
     \clearpage
   \fi
@@ -166,14 +176,14 @@ Dated: \today
     \phantomsection
   \else
   \fi
-  \addcontentsline{toc}{section}{List of Tables}\listoftables}}
+  \addcontentsline{toc}{chapter}{List of Tables}\listoftables}}
 \DeclareOption{lof}{\renewcommand*{\makelof}{
   \ifdefined\phantomsection
     % makes hyperref recognize this section properly for pdf links
     \phantomsection
   \else
   \fi
-  \addcontentsline{toc}{section}{List of Figures}\listoffigures}}
+  \addcontentsline{toc}{chapter}{List of Figures}\listoffigures}}
 \DeclareOption{los}{
   \renewcommand*{\makelos}{
     \RequirePackage{losymbol}
@@ -184,7 +194,7 @@ Dated: \today
     \phantomsection
   \else
   \fi
-    \addcontentsline{toc}{section}{List of Symbols}
+    \addcontentsline{toc}{chapter}{List of Symbols}
   }
 }
 \DeclareOption{singlespace}{
@@ -224,9 +234,6 @@ Dated: \today
 %% 'begincmd' no longer used -- insert \makefrontmatter in the document instead. See above. 
 %\AtBeginDocument{\begincmd}
 \endinput
-
-%%% Change bibname to References
-\renewcommand{\bibname}{References}
 
 %% 
 %% End of file `hkputhesis.cls'.

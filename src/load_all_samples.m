@@ -28,7 +28,7 @@ num_of_samples = length(file_list);
 sample_per_person = 10;
 num_of_people = num_of_samples/sample_per_person;
 % Toggle this for limited number of files
-num_of_people = 100;
+// num_of_people = 100;
 
 feature_dimension = roi_size;
 % feature_dimension = roi_size*roi_size;
