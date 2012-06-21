@@ -1,14 +1,15 @@
+%!TEX root = featurematch.tex
 \subsection{Dimension Reduction}
 \label{ssec:methodology:lda}
 
 %TODO find the citation
-LDA is a state-of-the-art dimensionality reduction technique widely used in classification problems. The objective is to find the optimal projection which simultaneously minimizes the within-class distance and maximizes the between-class distance, thus achieving maximum discrimination (Here, the “class” is used to denote the identity of the subjects, e.g. the samples collected from one palm are regarded as one class). However, the traditional LDA requires the within-class scatter matrix to be nonsingular, which means the sample size should be large enough compared with its dimension, but is not always possible. In this paper, we therefore adopt the orthogonal LDA (OLDA) proposed in ~\cite{[17]}, where the vectors of the optimal projection are calculated using the training database and the optimal projecting vectors are orthogonal to each other.
+LDA is a state-of-the-art dimensionality reduction technique widely used in classification problems. The objective is to find the optimal projection which simultaneously minimizes the within-class distance and maximizes the between-class distance, thus achieving maximum discrimination (Here, the “class” is used to denote the identity of the subjects, e.g. the samples collected from one palm are regarded as one class). However, the traditional LDA requires the within-class scatter matrix to be nonsingular, which means the sample size should be large enough compared with its dimension, but is not always possible. In this paper, we therefore adopt the orthogonal LDA (OLDA) proposed in ~\cite{Ye:2005uu}, where the vectors of the optimal projection are calculated using the training database and the optimal projecting vectors are orthogonal to each other.
 
-Suppose the 3D ROI has been divided to N levels and that M radial lines are used to represent the level contours. We can list the global features as a column vector,
+Suppose the 3D ROI has been divided to N levels and that M radial lines are used to represent the level contours. We can list the features as a column vector,
 \begin{equation}
 F=\{MD,A^1,A^2,\dots,A^N,R^1,R^2,\dots,R^{N\times M}\}
 \end{equation}
-with $1+N+N\times M$ rows. Given a training database which has $n$ samples and $k$ classes as $X=[X_1,X_2,\dots,X_k]$, where $X_i \in \mathbb{R}^{(1+N+N\times M)\times n}, i=1,2,\dots,k$ and $n=\sum \limits_{i=1}^k n_i$ , adopting OLDA ~\cite{[17]} the optimal projection $W$ can be calculated as follows.
+with $1+N+N\times M$ rows. Given a training database which has $n$ samples and $k$ classes as $X=[X_1,X_2,\dots,X_k]$, where $X_i \in \mathbb{R}^{(1+N+N\times M)\times n}, i=1,2,\dots,k$ and $n=\sum \limits_{i=1}^k n_i$ , adopting OLDA ~\cite{Ye:2005uu} the optimal projection $W$ can be calculated as follows.
 
 First, the within-class scatter matrix $S_w$, the between-class scatter matrix $S_b$ and total scatter matrix $S_t$ can be expressed as
 

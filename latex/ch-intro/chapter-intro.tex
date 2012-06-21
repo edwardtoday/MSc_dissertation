@@ -1,4 +1,4 @@
-
+%!TEX root = ../thesis.tex
 \chapter{Introduction\label{ch:intro}}
 
 Palmprint has been increasingly recognized as unique and stable biometric characteristics for personal authentication. In the past decade, various methods based on two dimensional (2-D) palmprint have been studied in depth. The 2-D recognition techniques have proved to achieve high accuracy~\cite{Kong:2009hj}.
@@ -18,9 +18,6 @@ David et al. explore a 3-D palmprint recognition approach by exploiting the 3-D 
 
 Existing work has been done to utilize the 3-D information for palmprint classification and sorting. The global features proposed for that purpose are fast in matching speed but low in accuracy compared to 2-D techniques.
 
-%TODO
 Three features are extracted from 3D palmprint depth data: Maximum Depth, Horizontal Cross-section Area and Radial Line Length. Theses features are combined together as a brief description of a 3D palmprint sample. Viewing the feature set as a column vector, various data processing techniques can be applied to improve the recognition efficiency such as dimension reduction and machine learning.
-
-% In this paper, we propose extracting three novel global features from a 3D palmprint image: Maximum Depth (MD) at the center of the palm, Horizontal Cross-section Area (HCA) at different levels of the palm; and Radial Line Length (RLL) measured from the centroid to the boundary of the 3D palmprint. These features are then used to describe and classify the shape of the 3D palmprint using continuous classification. This involves first reducing the dimensionality of the features by treating these features as a column vector and applying Orthogonal Linear Discriminant Analysis (OLDA) [17]. We then improve the efficiency of palmprint recognition by indexing the database using coarse-level matching and Ranking Support Vector Machine (RSVM) [18]
 
 The rest of this work is organized as follows. Chapter \ref{ch:pastwork} briefly introduces the existing research efforts related to this topic. Chapter \ref{ch:methodology} describes the entire data processing procedures to extract features and use them for 3D palmprint recognition. Chapter \ref{ch:experiment} shows some experiemnt results. Chapter \ref{ch:conclusion} concludes the work and points out potentials for some future work.

@@ -1,22 +1,22 @@
-% ****************************************************************************************** % Dissertation template and document class for Princeton University
-% Author  : Jeffrey Scott Dwoskin <jdwoskin@princeton.edu>
+% ****************************************************************************************** % Dissertation template and document class for The Hong Kong Polytechnic University
+% Author  : QING Pei <edwardtoday@gmail.com>
 % Adapted from: http://www.math.princeton.edu/graduate/tex/puthesis.html
 % ****************************************************************************************** %
 
 
 %%% For print copies
 %% set 'singlespace' option to set entire thesis to single space, and define "\printmode" to remove all hyperlinks for printed copies of the thesis. Delete all output files before changing this mode -- it will turn hyperref package on and off
-%\documentclass[12pt,lot, lof, singlespace]{puthesis}
+%\documentclass[12pt,lot, lof, singlespace]{hkputhesis}
 %\newcommand{\printmode}{}
 
 %%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links. 
-\documentclass[12pt,lot, lof]{puthesis}
+\documentclass[12pt,lot, lof]{hkputhesis}
 \newcommand{\proquestmode}{}
 % I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read. 
 
 %%% For early drafts without some of the frontmatter
 % Also see the "ifodd" command below to disable more frontmatter
-%\documentclass[12pt]{puthesis}
+%\documentclass[12pt]{hkputhesis}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Author & title page info
@@ -59,6 +59,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Use packages
 
+\usepackage{setspace}
 \usepackage{amsfonts,amsmath}
 
 %%% For figures
@@ -179,13 +180,12 @@
 \ifodd 0
 % front-matter disabled while writing chapters
 \renewcommand{\maketitlepage}{}
-\renewcommand*{\makecopyrightpage}{}
+\renewcommand*{\makeauthorshipstatement}{}
 \renewcommand*{\makeabstract}{}
 
 % you can just skip the \acknowledgements and \dedication commands to leave out these sections.
 
 \else
-
 
 \abstract{
 % Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
@@ -218,6 +218,9 @@
 % Footnotes should be placed after punctuation.\footnote{place here.}
 % Generally, place citations before the period~\cite{anotherauthor}.
 % The proper usage for i.e., and e.g., include commas ``(e.g., option A, option B)''
+
+%%% Turn off indentation globally
+\parindent=0pt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Import chapters
@@ -254,8 +257,8 @@
 \addcontentsline{toc}{chapter}{Bibliography}
 
 % include your .bib file
-%\bibliography{thesis}
-\bibliography{main}
+\bibliography{thesis}
+% \bibliography{main}
 
 \end{document}
 

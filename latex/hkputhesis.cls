@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{puthesis}
-         [2008/05/02 v1.4 Princeton University Thesis class]
+\ProvidesClass{hkputhesis}
+         [2012/06/21 v0.1 The Hong Kong Polytechnic University Thesis class]
 \RequirePackage{setspace}
 \newcounter{subyear}
 \setcounter{subyear}{\number\year}
@@ -14,7 +14,7 @@
 \def\adviser#1{\gdef\@adviser{#1}}
 \long\def\@abstract{\@latex@error{No \noexpand\abstract given}\@ehc}
 \newcommand*{\frontmatter}{
-  \pagenumbering{roman}
+  \pagenumbering{Roman}
   }
 \newcommand*{\mainmatter}{\pagenumbering{arabic}}
 \newcommand*{\makelot}{}
@@ -25,7 +25,7 @@
   % only if we have the hyperref command that is necessary
   \ifdefined\pdfbookmark
      \phantomsection
-     \pdfbookmark[1]{\contentsname}{Contents}
+     \pdfbookmark[1]{\contentsname}{Table of Contents}
   \else
   \fi
 
@@ -49,11 +49,15 @@
 \newcommand*{\makefrontmatter}{
 \bodyspacing
 \frontmatter\maketitlepage
-%\makecopyrightpage
+\makeauthorshipstatement
+\makeacknowledgements
 \makeabstract
-\makeacknowledgements\makededication\maketoc
-\makelot\clearpage\makelof\clearpage\makelos
-\clearpage\mainmatter
+\makededication
+\maketoc
+\makelof\clearpage
+\makelot\clearpage
+\makelos\clearpage
+\mainmatter
 }
 \def\@submitted{\@submittedmonth~\@submittedyear}
 \def\@dept{Mathematics}
@@ -99,20 +103,32 @@
   \end{center}
   \clearpage
   }}
-\newcommand*{\makecopyrightpage}{
-  \thispagestyle{empty}
-  \vspace*{0in}
+\newcommand*{\makeauthorshipstatement}{
+  \newpage
+  \addcontentsline{toc}{section}{Statement of Authorship}
   \begin{center}
-    \copyright\ Copyright by \@author, \@copyrightyear. \\
-    All rights reserved.
+  \Large \textbf{Statement of Authorship}
   \end{center}
-  \clearpage}
+
+Except where reference is made in the text of this dissertation, this dissertation contains no material published elsewhere or extracted in whole or in part from a dissertation presented by me for another degree or diploma.
+
+No other person’s work has been used without due acknowledgement in the main text of the dissertation.
+
+This dissertation has not been submitted for the award of any other degree or diploma in any other tertiary institution.
+
+\vspace{5cm}
+
+\noindent\rule{.4\linewidth}{0.4pt}
+
+Name: \@author
+
+Dated: \today
+  \clearpage
+}
 \newcommand*{\makeabstract}{
   \newpage
   \addcontentsline{toc}{section}{Abstract}
-  \begin{center}
   \Large \textbf{Abstract}
-  \end{center}
   \@abstract
   \clearpage
   }
@@ -207,5 +223,9 @@
 %% 'begincmd' no longer used -- insert \makefrontmatter in the document instead. See above. 
 %\AtBeginDocument{\begincmd}
 \endinput
+
+%%% Change bibname to References
+\renewcommand{\bibname}{References}
+
 %% 
-%% End of file `puthesis.cls'.
+%% End of file `hkputhesis.cls'.
