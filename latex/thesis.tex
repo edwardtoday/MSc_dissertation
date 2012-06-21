@@ -10,7 +10,7 @@
 %\newcommand{\printmode}{}
 
 %%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links. 
-\documentclass[12pt,lot, lof]{hkputhesis}
+\documentclass[12pt,lot,lof]{hkputhesis}
 \newcommand{\proquestmode}{}
 % I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read. 
 
@@ -45,7 +45,7 @@
     %   Parameters for TEXT pages (not float pages):
     \setcounter{topnumber}{2}
     \setcounter{bottomnumber}{2}
-    \setcounter{totalnumber}{4}     % 2 may work better
+    \setcounter{totalnumber}{2}     % 2 may work better
     \setcounter{dbltopnumber}{2}    % for 2-column pages
     \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
     \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
@@ -91,8 +91,8 @@
 \setlength{\LTcapwidth}{\textwidth}
 
 %%% Set fonts
-%\usepackage{times}
-\usepackage{pslatex} % use Times New Roman
+\usepackage{mathptmx} % defines Adobe Times Roman (or equivalent) as default text font
+%\usepackage{pslatex} % basically a merger of the times and the (obsolete) mathptm packages
 
 %%% Set line spacing
 \usepackage{setspace}
@@ -309,8 +309,8 @@
 \addcontentsline{toc}{chapter}{\bibname}
 
 % include your .bib file
-\bibliography{thesis}
-% \bibliography{main}
+%\bibliography{thesis}
+\bibliography{main}
 
 \end{document}
 
