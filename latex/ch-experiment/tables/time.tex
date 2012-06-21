@@ -2,16 +2,16 @@
 \begin{table}[htbp]
   \centering
   \caption{Running time comparison of the three 3D palmprint recognition approaches}
-    \begin{tabular}{lrrr}
-    \toprule
+    \begin{tabular}{|p{4.5cm}|r|r|r|}
+    \hline
           & No classification & Coarse-level matching & RSVM \\
-    \midrule
-    \multicolumn{1}{p{5cm}}{Once feature extraction time} & 112ms & 136ms & 136ms \\
-    \multicolumn{1}{p{5cm}}{Once dimensionality reduction time} & 0ms   & 0.1ms & 0.1ms \\
-    \multicolumn{1}{p{5cm}}{Ranking or coarse matching time for all templates in database} & 0ms   & 0.5ms & 1.56ms \\
-    \multicolumn{1}{p{5cm}}{Once matching time by MCI} & 0.86ms & 0.86ms & 0.86ms \\
-    \multicolumn{1}{p{5cm}}{Total running time for one probe testing} & 456ms & 292.09ms & 240.86ms \\
-    \bottomrule
+    \hline
+    {Once feature extraction time} & 112ms & 136ms & 136ms \\ \hline
+    {Once dimensionality reduction time} & 0ms   & 0.1ms & 0.1ms \\ \hline
+    {Ranking or coarse matching time for all templates in database} & 0ms   & 0.5ms & 1.56ms \\ \hline
+    {Once matching time by MCI} & 0.86ms & 0.86ms & 0.86ms \\ \hline
+    {Total running time for one probe testing} & 456ms & 292.09ms & 240.86ms \\
+    \hline
     \end{tabular}%
   \label{tab:experiment:time}%
 \end{table}%
