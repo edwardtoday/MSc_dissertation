@@ -49,7 +49,7 @@
 %% Command inserted into the document immediately after \begin{document} to place all frontmatter
 %%   This was formerly named 'begincmd' and called below in \AtBeginDocument{}
 %%   However, that is not compatible with package 'hyperref'. \tableofcontents needs
-%%   to be declared from within the document itself. 
+%%   to be declared from within the document itself.
 \newcommand*{\makefrontmatter}{
 \bodyspacing
 \frontmatter
@@ -74,24 +74,23 @@
 \def\dedication#1{\gdef\@dedication{#1}}
 \newcommand{\maketitlepage}{{
   \thispagestyle{empty}
-  \vspace*{1.1in}
+  \vspace*{1.33in}
   \begin{center}
     {\titlesize \textbf{\@title}}
   \end{center}
-  \vspace*{1.6in}
+  \vspace*{1.57in}
   \begin{center}
     {\titlesize \textbf{\@author}}
   \end{center}
-  \vspace*{1.2in}
+  \vspace*{1in}
   \begin{center}
     {\titlesize \textbf{Master of Science in Software Technology}}
   \end{center}
-  \vspace{.6in}
-  \extravspace{.6in}
+  \vspace{.5in}
   \begin{center}
     {\titlesize \textbf{The Hong Kong Polytechnic University}}
   \end{center}
-  \vspace{.3in}
+  \vspace{.2in}
   \extravspace{.3in}
   % \begin{center}
   %     Recommended for Acceptance \\
@@ -231,9 +230,9 @@ This dissertation has not been submitted for the award of any other degree or di
 \setlength{\emergencystretch}{2em}
 
 \long\def\abstract#1{\gdef\@abstract{#1}}
-%% 'begincmd' no longer used -- insert \makefrontmatter in the document instead. See above. 
+%% 'begincmd' no longer used -- insert \makefrontmatter in the document instead. See above.
 %\AtBeginDocument{\begincmd}
 \endinput
 
-%% 
+%%
 %% End of file `hkputhesis.cls'.
