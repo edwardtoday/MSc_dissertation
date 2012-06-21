@@ -59,10 +59,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Use packages
 
-\usepackage{amsfonts}
+\usepackage{amsfonts,amsmath}
 
 %%% For figures
 \usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{subfigure}
 %\usepackage{subfig,rotate}
 
 %%% for comments
@@ -72,6 +74,7 @@
 \usepackage{multirow}
 % Longtable lets you have tables that span multiple pages.
 \usepackage{longtable}
+\usepackage{lscape}
 
 % Booktabs produces far nicer tables than the standard LaTeX tables.
 %   see: http://en.wikibooks.org/wiki/LaTeX/Tables
@@ -251,7 +254,8 @@
 \addcontentsline{toc}{chapter}{Bibliography}
 
 % include your .bib file
-\bibliography{thesis}
+%\bibliography{thesis}
+\bibliography{main}
 
 \end{document}
 

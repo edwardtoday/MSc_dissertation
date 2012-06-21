@@ -1,8 +1,10 @@
 \section{Feature Calculation}
 \label{sec:methodology:featurecalc}
 
-Using the ROI obtained from the original 3D palmprint data, we extract three kinds of features to describe the shape of the 3D palmprint: Maximum Depth (MD) of palm center, the Horizontal Cross-section Area (HCA) of different levels and the Radial Line Length (RLL) from the centroid to the boundary of 3D palmprint horizontal cross-section of different levels.
+Using the ROI obtained from the original 3D palmprint data, three kinds of features to describe the shape of the 3D palmprint: Maximum Depth (MD) of palm center, the Horizontal Cross-section Area (HCA) of different levels and the Radial Line Length (RLL) from the centroid to the boundary of 3D palmprint horizontal cross-section of different levels.
 
-\input{md}
-\input{hca}
-\input{rll}
+\input{ch-methodology/md}
+\input{ch-methodology/hca}
+\input{ch-methodology/rll}
+
+The above three features are mainly determined by the central region of the palm. This region is certainly contained by the ROI described in Section ~\ref{sec:methodology:roiextraction} which makes these features insensitive to translation and rotation. Although the RLL feature can be affected by rotation as the contours change smoothly, if the rotation is small then the variation of the RLL feature will also be small. Actually, there are some restricting pegs on the capture device which can guide the users to put their hands on the proper place as described in ~\cite{Zhang:2009dp}. Furthermore, we assume the user is cooperative when collecting data as we aim at civil rather than law enforcement applications.

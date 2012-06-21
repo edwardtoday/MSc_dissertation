@@ -1,8 +1,28 @@
-\subsection{Naive Matching}
+\subsection{Coarse-level Matching}
 \label{ssec:methodology:naive}
 
-As the purpose of coarse-level matching is to speed up the identification during retrieval, we can regard it as a continuous classification approach. After mapping the global features’   dimensional vector  , the global features can be used to measure the similarity of two samples as follows:
-                              (16)
-In 3D palmprint identification, we can use the   dimensional global features to carry out coarse-level matching as shown in Fig. 9. If the testing sample passes coarse-level matching, it undergoes fine-level matching using 3D palmprint local features. If it does not pass, it moves on to the next sample in the database and so on until it has accessed the last sample in the database. From (16), we can see that coarse-level matching requires only   times of addition and multiplication which is much faster than fine-level matching using local features. Eq. (17) gives the fine-level matching by Mean Curvature Image (MCI) feature [13]:
-                              (17)
-where symbol “ ” represents the logical AND operation,   and   are the two binarized MCI features. To deal with the translation problem of ROI when calculating the matching score by (17), we will shift two, four, six and eight pixels of the test image along 8 directions: right, left, up, down, left-up, left-down, right-up and right-down, respectively. Adding the non-shift one, we will have   matching scores and the maximum one is selected. Suppose the size of the MCI feature is  , i.e.   and  , from (16) and (17) we can see that coarse-level matching is much faster than fine-level matching.
+For palmprint recognition, we need a measurement of similarity between two samples. If the similarity is high, we have a high confidence to believe that the two samples are from the same person. Otherwise we reject to claim that.
+
+After mapping the high-dimensional feature vector to $\Gamma$-dimensional vector $\tilde{F}$, the similarity between two samples can be calculated as
+
+\begin{equation}
+Similarity= \| \tilde{F}_1 -\tilde{F}_2 \|
+= \sum \limits_{i=1}^{\Gamma} (f_i^1-f_i^2)^2
+\label{eq:methodology:similarity}
+\end{equation}
+
+There are other features extracted from the same dataset such as Mean Curvature Image in ~\cite{Zhang:2009dp}, which is defined as
+
+\begin{equation}
+Y=\frac{
+    2\sum \limits_{i=1}{n} \sum \limits_{j=1}^{m} Z_d(i,j) \cap Z_t(i,j)
+}
+{
+    \sum \limits_{i=1}{n} \sum \limits_{j=1}^{m} Z_d(i,j) +
+    \sum \limits_{i=1}{n} \sum \limits_{j=1}^{m} Z_t(i,j)
+}
+\end{equation}
+
+where symbol $\cap$ represents the logical AND operation, $Z_d$ and $Z_t$ are two binarized MCIs. Due to the fact that MCI is covariant to shifting, the actual matching process for MCI is repeated by shifting the image with 4 different displacement in 8 directions. A total of 33 matching scores are calculated and the maximum is adopted as the overall matching score.
+
+Compared to the computation in ~\ref{eq:methodology:similarity}, the MCI matching requires far more computation.

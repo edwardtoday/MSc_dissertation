@@ -1,8 +1,45 @@
-\subsection{2.2.3   Radial Line Length}
+\subsection{Radial Line Length (RLL)}
 \label{ssec:methodology:rll}
 
-The HCA is only a coarse description of the cross-section. To identify samples which have a similar cross-sectional area but have a different contour, we propose the RLL feature which describes the shape of the contour. First, we calculate the centroid of the first level  , thereafter we treat it as the centroid of all levels. Then, from the centroid we draw M radial lines which intersect with the contour of every level. The distance between the intersection and the centroid is defined as the RLL. The radial lines are distributed at equal angles. We record these radial lines from the inner layers to the outer layers starting with the horizontal direction by an M×N dimensional vector,  , where M is the number of radial lines and N is the number of cross-sections. Fig. 8 shows some examples of radial lines and their cross-sections. We can see that the RLL better represents the contour as the number of radial lines increases.
+HCA is a coarse summary of the ROI characteristics. Different sample may have a similar area but dramatically different shape or contour of that area. To describe this shape characteristic, we need more elements to represent the ROI. The Radial Line Length (RLL) is then introduced for this purpose.
 
-Figure 8. Radial line starting from the centroid (from left to right, M = 8, 16, 32 and 64 respectively).
+First, we calculate the centroid of the first level  $L^1$, thereafter we treat it as the reference point $P_{ref}$ for all levels. Then, from $P_{ref}$ we draw M radial lines which intersect with the contour of every level. RLL is defined as the distance from the intersection point to $P_{ref}$. The radial lines are distributed at equal angles. We record these radial lines from the inner layers to the outer layers starting with the horizontal direction by an $M$ by $N$ dimensional vector
+\begin{equation}
+R_i, i=1,2,\dots,M\times N
+\end{equation}
+where $M$ is the number of radial lines and $N$ is the number of cross-sections.
 
-The above three global features are mainly determined by the central region of the palm. This region is certainly contained by the ROI described in Section 2.1 which makes these features insensitive to translation and rotation. Although the RLL feature can be affected by rotation as the contours change smoothly, if the rotation is small then the variation of the RLL feature will also be small. Actually, there are some restricting pegs on the capture device which can guide the user to put his/her hand on the proper place as described in [13]. Furthermore, we assume the user is cooperative when collecting data as we aim at civil rather than law enforcement applications.
+Figure ~\ref{fig:methodology:rll8} through ~\ref{fig:methodology:rll64} show some examples of RLL. This is a more detailed description than HCA as it takes the shape of each area into consideration.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ch-methodology/figures/rll8}
+    \caption[8 radial lines starting from the reference point]{8 radial lines starting from the reference point}
+    \label{fig:methodology:rll8}
+  \end{center}
+\end{figure}
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ch-methodology/figures/rll16}
+    \caption[16 radial lines starting from the reference point]{16 radial lines starting from the reference point}
+    \label{fig:methodology:rll16}
+  \end{center}
+\end{figure}
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ch-methodology/figures/rll32}
+    \caption[32 radial lines starting from the reference point]{32 radial lines starting from the reference point}
+    \label{fig:methodology:rll32}
+  \end{center}
+\end{figure}
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=0.4\linewidth]{ch-methodology/figures/rll64}
+    \caption[64 radial lines starting from the reference point]{64 radial lines starting from the reference point}
+    \label{fig:methodology:rll64}
+  \end{center}
+\end{figure}
+

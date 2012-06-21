@@ -1,20 +1,56 @@
 \subsection{Support Vector Machine}
 \label{ssec:methodology:svm}
 
-Coarse-level matching scheme is a simple and easy way to reduce retrieval times. It’s more useful for palmprint recognition if we can rank the candidate samples in the database in descending order according to the above global features. Searching for the closest matches to a given query vector in a large database is time consuming if the vector is even moderately high-dimensional. Various methods have been proposed to speed up the nearest neighbor retrieval, including hashing and tree structures [20]. However, the complexity of these methods grows exponentially with increasing dimensionality [21]. Therefore, we have adopted the Ranking Support Vector Machine (RSVM) method [18], inspired by the approaches of internet search engines, to rank the candidate samples in the database.
+Coarse-level matching scheme is a simple and easy way to reduce retrieval times. It’s more useful for palmprint recognition if we can rank the candidate samples in the database in descending order according to the above global features. Searching for the closest matches to a given query vector in a large database is time consuming if the vector is even moderately high-dimensional. Various methods have been proposed to speed up the nearest neighbor retrieval, including hashing and tree structures ~\cite{[20]}. However, the complexity of these methods grows exponentially with increasing dimensionality ~\cite{[21]}. Therefore, we have adopted the Ranking Support Vector Machine (RSVM) method ~\cite{[18]}, inspired by the approaches of Internet search engines, to rank the candidate samples in the database.
 
-Figure 9. The flowchart of registration and recognition with coarse-level matching scheme.
+Given a query $q_k, k=1,2,\dots,n$ and a sample collection $D=\{d_1,d_2,\dots,d_m$, the optimal retrieval system should return a ranking $r_k^*, k=1,2,\dots,n$ that orders the samples in $D$ according to their relevance to the query.
 
-Given a query   and a sample collection , the optimal retrieval system should return a ranking   that orders the samples in D according to their relevance to the query. In this paper, the query   and the sample   are the   dimensional global features as described above. In our approach, if a sample   is ranked higher than   in some ordering  , i.e.  , then  , otherwise  . Consider the class of linear ranking functions
-                           (18)
-where   is a weighted vector that is adjusted by learning and   is a pairwise distance function describing the match between   and   can be defined as  . Our goal is to find the optimal ranking function that will satisfy the maximum number of the following inequalities.
-                                (19)
-It is easier to solve this problem if it is converted into to the following SVM classification problem by introducing non-negative slack variable  .
+In the palmprint recognition context, the query $q$ and the sample $d$ are the $\Gamma$-dimensional features as described above. If a sample $d_i$ is ranked higher than $d_j$in some ordering $r$, i.e. $r(d_i)>r(d_j)$, then $(d_i,d_j)\in r$, otherwise $(d_i,d_j)\ni r$. Consider the class of linear ranking functions
+
+\begin{equation}
+(d_i,d_j) \in f_{\overrightarrow{w}}(q) \Leftrightarrow \overrightarrow{w}\phi(q,d_i)> \overrightarrow{w}\phi(q,d_j)
+\end{equation}
+
+where $\overrightarrow{w}$ is a weighted vector that is adjusted by learning and $\phi(q,d)$ is a pairwise distance function describing the match between $q$ and $d$ can be defined as
+
+\begin{equation}
+\phi(q,d)=|q_i-d_i|, i=1,2,\dots,\Gamma
+\end{equation}
+
+Our goal is to find the optimal ranking function that will satisfy the maximum number of the following inequalities.
+
+\begin{eqnarray}
+\forall (d_i,d_j) \in r_1^* &:& \overrightarrow{w}\phi(q_1,d_i)> \overrightarrow{w}\phi(q_1,d_j)\\
+&\dots&\\
+\forall (d_i,d_j) \in r_n^* &:& \overrightarrow{w}\phi(q_n,d_i)> \overrightarrow{w}\phi(q_n,d_j)
+\end{eqnarray}
+
+It is easier to solve this problem if it is converted into to the following SVM classification problem by introducing non-negative slack variable $\xi_{i,j,k}$.
+
 Hence, the problem is to minimize:
-                                   (20)
+
+\begin{equation}
+V(\overrightarrow{w},\overrightarrow{\xi})=\frac{1}{2}\overrightarrow{w}\cdot\overrightarrow{w}+C\sum \xi_{i,j,k}
+\end{equation}
+
 subject to:
-                       (21)
-                                              (22)
-where C is a parameter that allows trading-off margin size against training error and   set by experience.
-In the training stage, it is the inner-class samples of a test sample that should be ranked higher than the inter-class samples, e.g. inner-class samples rank is 1 and inter-class samples rank is 0. We input the ranks together with the   dimensional global features into the RSVM algorithm to learn the optimal ranking function  . Given a new query  , the samples in the database can be sorted by their value of
-                                  (23)
+
+\begin{eqnarray}
+\forall (d_i,d_j) \in r_1^* &:& \overrightarrow{w} \left(\phi(q_1,d_i)-\phi(q_1,d_j)\right)\geq 1- \xi_{i,j,1}\\
+&\dots&\\
+\forall (d_i,d_j) \in r_1^* &:& \overrightarrow{w} \left(\phi(q_n,d_i)-\phi(q_n,d_j)\right)\geq 1- \xi_{i,j,n}
+\end{eqnarray}
+
+and
+
+\begin{equation}
+\forall i \forall j \forall k : \xi_{i,j,k}>0
+\end{equation}
+
+where $C$ is a parameter that allows trading-off margin size against training error and $C=0.1$ set by experience.
+
+In the training stage, it is the inner-class samples of a test sample that should be ranked higher than the inter-class samples, e.g. inner-class samples rank is 1 and inter-class samples rank is 0. We input the ranks together with the $\Gamma$-dimensional features into the RSVM algorithm to learn the optimal ranking function $f_{\rightarrow{w}^*}$. Given a new query $q$, the samples in the database can be sorted by their value of
+
+\begin{equation}
+rsv(q,d_i)=\rightarrow{w}^*\phi(q,d_i)
+\end{equation}
