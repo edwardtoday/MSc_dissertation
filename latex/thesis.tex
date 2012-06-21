@@ -141,7 +141,6 @@
 %%% Change bibname to References
 \renewcommand*{\bibname}{References}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
 \ifdefined\printmode
@@ -276,7 +275,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Import chapters
-
 \begin{document}
 
 \makefrontmatter
@@ -296,14 +294,10 @@
 % \include{ch-appendicies/printing}
 
 
-% Make the bibliography single spaced
-% \singlespacing
-\bibliographystyle{unsrt}
-
 % add the Bibliography to the Table of Contents
 \cleardoublepage
-\ifdefined\phantomsectionmsection
-  \phantomsection  % makes hyperref recognize this section properly for pdf link
+\ifdefined\phantomsection
+   \phantomsection  % makes hyperref recognize this section properly for pdf link
 \else
 \fi
 \addcontentsline{toc}{chapter}{\bibname}
@@ -311,6 +305,8 @@
 % include your .bib file
 %\bibliography{thesis}
 \bibliography{main}
+
+\bibliographystyle{unsrt}
 
 \end{document}
 

@@ -92,18 +92,6 @@ function [b,idx,outliers] = deleteoutliers(a,alpha,rep);
 % value that is furthest from the sample mean. Infinite elements
 % are discarded if rep is 0, or replaced with NaNs if rep is 1.
 % 
-% Appropriate application of the test requires that data can be
-% reasonably approximated by a normal distribution. For reference,
-% see:
-% 1) "Procedures for Detecting Outlying Observations in Samples,"
-%     by F.E. Grubbs; Technometrics, 11-1:1--21; Feb., 1969, and 
-% 2) _Outliers in Statistical Data_, by V. Barnett and
-%    T. Lewis; Wiley Series in Probability and Mathematical
-%    Statistics; John Wiley & Sons; Chichester, 1994.
-% A good online discussion of the test is also given in NIST's
-% Engineering Statistics Handbook:
-% http://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm
-
 if nargin == 1
 	alpha = 0.05;
 	rep = 0;
@@ -206,7 +194,8 @@ for current_person = 1:num_of_people
 		' num2str(num_of_people) ' people.']);
     for current_sample = 1:sample_per_person
         file_id = (current_person - 1) * 10 + current_sample;
-        sample_filename = strtrim([data_dir filesep file_list(file_id,:)]);
+        sample_filename = strtrim([data_dir filesep 
+							file_list(file_id,:)]);
         
         mat = file2matrix(sample_filename, sample_width, sample_height);
         
@@ -346,11 +335,9 @@ accuracy = sum(correct)/total_testing
 \end{minted}
 \clearpage
 
-Code to extract shape features.
+Code to create mask according to gradient.
 
 \begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
-function extractShapeF()
-
 sizeH = 200; %
 sizeW = 200; %
 lnum = 8;
@@ -366,7 +353,8 @@ Z = fread(fid, [sizeH,sizeW], 'double');
 fclose(fid);
 [fx, fy] = gradient(Z);
 fxy = fx.^2 + fy.^2;
-noiseP = find(fxy>0.1); % 0.1 used for corrected and smoothed Sub3D, 1 used for original Sub3D
+noiseP = find(fxy>0.1); % 0.1 used for corrected and smoothed Sub3D,
+							% 1 used for original Sub3D
 flag = ones(sizeH, sizeW); %1 for valid point, 0 for invalid point
 flag(noiseP) = 0;
 flag = 1 - flag;
@@ -383,7 +371,12 @@ Z(noiseP) = 5;
 % flag(1,:) = 0; flag(end,:) = 0;
 % flag(:,1) = 0; flag(:,end) = 0;
 % imshow(flag');
+\end{minted}
+\clearpage
 
+Code to determine the reference plane and MD.
+
+\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
 %calculate the reference 0 plane
 % use Z(6:35, 65:136) for calculate the mean value as reference 0
 refRect = Z(6:35, 65:136);
@@ -399,52 +392,63 @@ rectforMin(1:35, end-25:end) = 5;
 palmH = min(min(rectforMin));
 ind = find(Z == palmH);
 % Z(ind) = 5;
+\end{minted}
+\clearpage
 
-% %find the level regions from 0 to deepest point 
-% %find the region > 0
-% palmH = -palmH;
-% Z = -Z;
-% Ln = 8;
-% step = palmH / Ln;
-% levelH = [0:step:palmH];
-% for i = 1:Ln
-%     L0 = zeros(sizeH, sizeW);
-%     L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
-%     %the 1st level
-%     if i==1
-%         [L,num] = bwlabel(L0);
-%         if num > 1
-%             for j = 1:num
-%                 indL = find(L==j);
-%                 if length(find(indL==ind)) > 0
-%                     L0(:,:) = 0;
-%                     L0(indL) = 1;
-%                 end
-%             end
-%         end
-%         Lp = L0;
-%         L0 = logical(L0');  
-%         [x, y] = find(L0);
-%         temp = find(L0);
-%         mx = mean(x);
-%         my = mean(y);
-% 
-% %         saveIm(L0, i);
-%         figure;
-%         imshow(L0);
-%     else
-%         %dilate the Lp (previous level) and than & with L0
-%         se = strel('disk',35 - 3*i);  
-%         L1 = imdilate(Lp, se);
-%         L0 = L0 & L1;
-%         Lp = L0;
-%         L0 = L0';   
-% %         saveIm(L0, i);
-%         figure;
-%         imshow(L0);
-%     end    
-% end
+Code to grow each level from the reference point.
 
+\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+%find the level regions from 0 to deepest point 
+%find the region > 0
+palmH = -palmH;
+Z = -Z;
+Ln = 8;
+step = palmH / Ln;
+levelH = [0:step:palmH];
+for i = 1:Ln
+    L0 = zeros(sizeH, sizeW);
+    L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
+    %the 1st level
+    if i==1
+        [L,num] = bwlabel(L0);
+        if num > 1
+            for j = 1:num
+                indL = find(L==j);
+                if length(find(indL==ind)) > 0
+                    L0(:,:) = 0;
+                    L0(indL) = 1;
+                end
+            end
+        end
+        Lp = L0;
+        L0 = logical(L0');  
+        [x, y] = find(L0);
+        temp = find(L0);
+        mx = mean(x);
+        my = mean(y);
+
+%         saveIm(L0, i);
+        figure;
+        imshow(L0);
+    else
+        %dilate the Lp (previous level) and than & with L0
+        se = strel('disk',35 - 3*i);  
+        L1 = imdilate(Lp, se);
+        L0 = L0 & L1;
+        Lp = L0;
+        L0 = L0';   
+%         saveIm(L0, i);
+        figure;
+        imshow(L0);
+    end    
+end
+\end{minted}
+\clearpage
+
+
+Code to show the growed levels.
+
+\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
 %for show
 im_level = zeros(sizeH, sizeW); %for show the levels
 %find the level regions from 0 to deepest point 
@@ -501,32 +505,12 @@ end
 im_level = uint8(im_level);
 % imshow(im_level);
 % imwrite(im_level, 'figures/im_levels.bmp');
+\end{minted}
+\clearpage
 
-line_401 = imread('figures/line_all.bmp');
-line_200 = line_401(201-mx+1:201-mx+1+199, 201-my+1:201-my+1+199);
-% imshow(line_200);
-temp = find(line_200);
-im_level(temp) = 20;
-im_level(mx, my) = 255;
-figure;
-imshow(im_level);
-imwrite(im_level, 'figures/im_levels_line_4.bmp');
-a = 0;
+Other functions.
 
-% %%% Z(6:35, 65:136) = 0;
-% Z(6:35, 65) = 1;
-% Z(6:35, 136) = 1;
-% Z(6, 65:136) = 1;
-% Z(35, 65:136) = 1;
-
-% figure;
-% mesh(X,Y,Z);
-% daspect([1 1 1]);
-% view([90 90]);
-
-a = 0;
-
-%-----------------------------------------------------------------
+\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
 function saveIm(data, nlevel)
 filename = ['../rawdata/bmp/Sub3D_I_4_9', '_' num2str(nlevel), '.bmp'];
 imwrite(data, filename);
