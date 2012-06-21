@@ -68,7 +68,6 @@
 \def\dedication#1{\gdef\@dedication{#1}}
 \newcommand{\maketitlepage}{{
   \thispagestyle{empty}
-  \sc
   \vspace*{0in}
   \begin{center}
     \LARGE \@title
@@ -128,7 +127,9 @@ Dated: \today
 \newcommand*{\makeabstract}{
   \newpage
   \addcontentsline{toc}{section}{Abstract}
-  \Large \textbf{Abstract}
+  \vspace*{24pt}
+  {\Large \textbf{Abstract}}
+  \vspace*{12pt}
   \@abstract
   \clearpage
   }

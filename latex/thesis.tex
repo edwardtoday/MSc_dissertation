@@ -59,7 +59,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Use packages
 
-\usepackage{setspace}
 \usepackage{amsfonts,amsmath}
 
 %%% For figures
@@ -85,7 +84,28 @@
 % default caption width is 4in for longtable, but wider for normal tables
 \setlength{\LTcapwidth}{\textwidth}
 
+%%% Set fonts
+\usepackage{time}
 
+%%% Set line spacing
+\usepackage{setspace}
+\onehalfspacing
+
+%%% Turn off indentation globally
+\usepackage{parskip}
+% \parindent=0pt
+
+%%% Page number at bottom right
+\usepackage{fancyhdr}
+\fancyhf{} % clear all header and footers
+\renewcommand{\headrulewidth}{0pt} % remove the header rule
+\rfoot{\fancyplain{\thepage}{\thepage}}
+\pagestyle{fancyplain}
+
+
+
+%%% Setting the margins
+\usepackage[top=2.54cm, left=4.4cm, bottom=4.4cm, right=2.54cm]{geometry}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
@@ -219,16 +239,13 @@
 % Generally, place citations before the period~\cite{anotherauthor}.
 % The proper usage for i.e., and e.g., include commas ``(e.g., option A, option B)''
 
-%%% Turn off indentation globally
-\parindent=0pt
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Import chapters
 
 \begin{document}
 
 \makefrontmatter
-
+\pagestyle{fancy}
 
 % If you've disabled frontmatter, you can insert the toc manually
 %\tableofcontents\clearpage
