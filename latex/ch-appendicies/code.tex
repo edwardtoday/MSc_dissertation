@@ -5,7 +5,7 @@
 
 Create large arrays without asking for contiguous memory.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function result = createArrays(nArrays, arraySize, datatype)
 %CREATEARRAYS
 % This creates an cell array which does NOT require
@@ -24,18 +24,19 @@ function result = createArrays(nArrays, arraySize, datatype)
 end
 \end{minted}
 
-\clearpage
+% \clearpage
 
 Code to find the reference plane.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function [ d_ref ] = find_ref_plane( roi )
 %FIND_REF_PLANE Find the depth of reference plane of an ROI
 %   Detailed explanation goes here
 
 	[~,roi_size] = size(roi);
 
-	refplane = roi(1:(roi_size*0.25),(roi_size*0.25):(roi_size*0.9));
+	refplane = roi(1:(roi_size*0.25),
+	 (roi_size*0.25):(roi_size*0.9));
 
 	d_ref = max(max(refplane));
 
@@ -45,7 +46,7 @@ end
 \clearpage
 
 Code to extract the X coordinates from original data.
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 clear;
 
 prefix = '..\..\3D_palm';
@@ -58,7 +59,8 @@ file_list = char({file_list.name});
 
 %% Get X coordinates from file
 tic;
-dat_file = reshape(dlmread([load_dir filesep file_list(1,:)]),768,576,3);
+dat_file = reshape(dlmread([load_dir filesep file_list(1,:)]),
+			   768,576,3);
 palmX=dat_file(:,1,1);
 
 %% Save result to file
@@ -71,7 +73,7 @@ toc;
 
 Code to remove outliers from a vector.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function [b,idx,outliers] = deleteoutliers(a,alpha,rep);
 % [B, IDX, OUTLIERS] = DELETEOUTLIERS(A, ALPHA, REP)
 % 
@@ -117,7 +119,9 @@ outlier = 1;
 while outlier
 	tmp = b(~isnan(b));
 	meanval = mean(tmp);
-	maxval = tmp(find(abs(tmp-mean(tmp))==max(abs(tmp-mean(tmp)))));
+	maxval = tmp(find(abs(tmp-mean(tmp))==
+				      max(abs(tmp-mean(tmp)))
+				     ));
 	maxval = maxval(1);
 	sdval = std(tmp);
 	tn = abs((maxval-meanval)/sdval);
@@ -128,6 +132,7 @@ while outlier
 		b(tmp) = NaN;
 	end
 end
+
 if nargout >= 2
 	idx = find(isnan(b));
 end
@@ -141,7 +146,9 @@ return
 
 function zcrit = zcritical(alpha,n)
 %ZCRIT = ZCRITICAL(ALPHA,N)
-% Computes the critical z value for rejecting outliers (GRUBBS TEST)
+% Computes the critical z value for rejecting outliers
+% (GRUBBS TEST)
+
 tcrit = tinv(alpha/(2*n),n-2);
 zcrit = (n-1)/sqrt(n)*(sqrt(tcrit^2/(n-2+tcrit^2)));
 \end{minted}
@@ -149,7 +156,7 @@ zcrit = (n-1)/sqrt(n)*(sqrt(tcrit^2/(n-2+tcrit^2)));
 
 Code for batch feature extraction.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 clear;
 
 %% Files to process
@@ -185,7 +192,8 @@ num_of_people = num_of_samples/sample_per_person;
 feature_dimension = roi_size;
 % feature_dimension = roi_size*roi_size;
 
-features = zeros(num_of_people*sample_per_person,feature_dimension);
+features = zeros(num_of_people*sample_per_person,
+                 feature_dimension);
 
 %% Parallel read files
 tic;
@@ -197,7 +205,9 @@ for current_person = 1:num_of_people
         sample_filename = strtrim([data_dir filesep 
 							file_list(file_id,:)]);
         
-        mat = file2matrix(sample_filename, sample_width, sample_height);
+        mat = file2matrix(sample_filename,
+						  sample_width,
+						  sample_height);
         
         if (use_original_data)
             % Crop ROI from original data
@@ -216,7 +226,7 @@ toc;
 
 Code for curvature extraction.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function [K,H,Pmax,Pmin] = surfature(X,Y,Z),
 % SURFATURE -  COMPUTE GAUSSIAN AND MEAN CURVATURES OF A SURFACE
 %   [K,H] = SURFATURE(X,Y,Z), WHERE X,Y,Z ARE 2D ARRAYS OF POINTS
@@ -288,7 +298,7 @@ Pmin = H - sqrt(H.^2 - K);
 
 Code to test feature performance.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 %% Load features
 load(['output' filesep 'features.mat']);
 
@@ -326,9 +336,12 @@ nearest_person = ceil(nearest_id/training_sample_per_person);
 %% Check performance
 [total_testing,~] = size(testingset);
 testing_sample_per_person = total_testing / total * 10;
+
 for i = 1:total_testing
-    correct(i) = eq(nearest_person(i),ceil(i/testing_sample_per_person));
+    correct(i) = eq(nearest_person(i),
+	           ceil(i/testing_sample_per_person));
 end
+
 correct = correct';
 
 accuracy = sum(correct)/total_testing
@@ -337,7 +350,7 @@ accuracy = sum(correct)/total_testing
 
 Code to create mask according to gradient.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 sizeH = 200; %
 sizeW = 200; %
 lnum = 8;
@@ -349,12 +362,17 @@ temp = pixDis * ((sizeH-2)/2+0.5);
 
 fid = fopen('../rawdata/Sub3D_I_3_0.dat', 'r');
 % fid = fopen('../rawdata/Sub3D_II_100_0.dat', 'r');
+
 Z = fread(fid, [sizeH,sizeW], 'double');
 fclose(fid);
+
 [fx, fy] = gradient(Z);
 fxy = fx.^2 + fy.^2;
-noiseP = find(fxy>0.1); % 0.1 used for corrected and smoothed Sub3D,
-							% 1 used for original Sub3D
+
+noiseP = find(fxy>0.1);
+% 0.1 used for corrected and smoothed Sub3D,
+% 1 used for original Sub3D
+
 flag = ones(sizeH, sizeW); %1 for valid point, 0 for invalid point
 flag(noiseP) = 0;
 flag = 1 - flag;
@@ -376,7 +394,7 @@ Z(noiseP) = 5;
 
 Code to determine the reference plane and MD.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 %calculate the reference 0 plane
 % use Z(6:35, 65:136) for calculate the mean value as reference 0
 refRect = Z(6:35, 65:136);
@@ -389,6 +407,7 @@ rectforMin = Z(65:190, 41:160);
 rectforMin(1:35, 1:25) = 5;
 rectforMin(1:35, end-25:end) = 5;
 % flagforMin = Z(65:190, 41:160);
+
 palmH = min(min(rectforMin));
 ind = find(Z == palmH);
 % Z(ind) = 5;
@@ -397,7 +416,7 @@ ind = find(Z == palmH);
 
 Code to grow each level from the reference point.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 %find the level regions from 0 to deepest point 
 %find the region > 0
 palmH = -palmH;
@@ -405,12 +424,14 @@ Z = -Z;
 Ln = 8;
 step = palmH / Ln;
 levelH = [0:step:palmH];
+
 for i = 1:Ln
     L0 = zeros(sizeH, sizeW);
     L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
     %the 1st level
     if i==1
         [L,num] = bwlabel(L0);
+
         if num > 1
             for j = 1:num
                 indL = find(L==j);
@@ -448,7 +469,7 @@ end
 
 Code to show the growed levels.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 %for show
 im_level = zeros(sizeH, sizeW); %for show the levels
 %find the level regions from 0 to deepest point 
@@ -461,6 +482,7 @@ levelH = [0:step:palmH];
 for i = 1:Ln
     L0 = zeros(sizeH, sizeW);
     L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
+
     %the 1st level
     if i==1
         [L,num] = bwlabel(L0);
@@ -510,9 +532,10 @@ im_level = uint8(im_level);
 
 Other functions.
 
-\begin{minted}[fontsize=\small,frame=lines,linenos]{matlab}
+\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function saveIm(data, nlevel)
-filename = ['../rawdata/bmp/Sub3D_I_4_9', '_' num2str(nlevel), '.bmp'];
+filename = ['../rawdata/bmp/Sub3D_I_4_9', 
+			'_' num2str(nlevel), '.bmp'];
 imwrite(data, filename);
 
 
