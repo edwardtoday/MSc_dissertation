@@ -1,0 +1,1 @@
+qpdf --linearize thesis.pdf 11500811g.pdf

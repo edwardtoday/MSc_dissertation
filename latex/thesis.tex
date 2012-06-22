@@ -15,6 +15,16 @@
 % Also see the "ifodd" command below to disable more frontmatter
 %\documentclass[12pt]{hkputhesis}
 
+%%% The PDF version should be compatible with Acrobat 5.0 or above
+%   which make it PDF 1.4
+% \pdfoutput=1
+\pdfminorversion=4
+\pdfobjcompresslevel=0
+% \pdfimageresolution=300
+% \pdfpkresolution=300
+% or you could simply use a package to achieve this
+% \RequirePackage{pdf14}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Author & title page info
 
@@ -103,7 +113,6 @@
 \renewcommand{\headrulewidth}{0pt} % remove the header rule
 \rfoot{\fancyplain{\minsize\thepage\hspace{1.8em}}{\minsize\thepage\hspace{1.8em}}}
 \pagestyle{fancyplain}
-
 
 %%% Create hyperlinks for cross-references in the document.
 \usepackage{hyperref}
