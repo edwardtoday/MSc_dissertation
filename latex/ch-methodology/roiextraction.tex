@@ -5,18 +5,18 @@
 The raw 3D palmprint image consists of 768*576 pixels with a depth value at each point. The samples are captured by a 3D palmprint acquisition device based on structured light imaging ~\cite{Zhang:2009dp}. Before any other processing, noisy pixels at the boundaries must be removed. The full resolution sample is cropped to a Region of Interest (ROI) with 400*400 resolution. A rectangle mask, from (234,68) to (634,468) is used to crop the ROI. Figure ~\ref{fig:methodology:sample-fullres} shows a full resolution sample of a palmprint and Figure ~\ref{fig:methodology:sample-roi} shows the ROI cropped. To reduce the storage and computation requirements for further processing, the ROI is down-sampled to a resolution of 200*200.
 
 \begin{figure}[htb]
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{ch-methodology/figures/sample-fullres}
-    \caption[Full resolution 3-D palmprint sample]{Full resolution 3-D palmprint sample}    \label{fig:methodology:sample-fullres}
-  \end{center}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{ch-methodology/figures/sample-fullres}
+\caption[Full resolution 3-D palmprint sample]{Full resolution 3-D palmprint sample}    \label{fig:methodology:sample-fullres}
+\end{center}
 \end{figure}
 
 \begin{figure}[htb]
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{ch-methodology/figures/sample-roi}
-    \caption[ROI from a 3-D palmprint sample]{ROI from a 3-D palmprint sample}
-    \label{fig:methodology:sample-roi}
-  \end{center}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{ch-methodology/figures/sample-roi}
+\caption[ROI from a 3-D palmprint sample]{ROI from a 3-D palmprint sample}
+\label{fig:methodology:sample-roi}
+\end{center}
 \end{figure}
 
 The ROI data is stored in a 200 by 200 matrix,

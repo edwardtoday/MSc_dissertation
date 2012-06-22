@@ -13,28 +13,28 @@ Similarity= \| \tilde{F}_1 -\tilde{F}_2 \|
 \end{equation}
 
 \begin{figure}[htb]
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{ch-methodology/figures/mci1}
-    \caption[MCI for ROIs from different palms]{Mean Curvature Image for ROIs from three different palms}    \label{fig:methodology:mci1}
-  \end{center}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{ch-methodology/figures/mci1}
+\caption[MCI for ROIs from different palms]{Mean Curvature Image for ROIs from three different palms}    \label{fig:methodology:mci1}
+\end{center}
 \end{figure}
 
 \begin{figure}[htb]
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{ch-methodology/figures/mci2}
-    \caption[MCI for ROIs from the same palm]{Mean Curvature Image for ROIs from three samples of the same palm}    \label{fig:methodology:mci2}
-  \end{center}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{ch-methodology/figures/mci2}
+\caption[MCI for ROIs from the same palm]{Mean Curvature Image for ROIs from three samples of the same palm}    \label{fig:methodology:mci2}
+\end{center}
 \end{figure}
 
 There are other features extracted from the same dataset such as Mean Curvature Image in ~\cite{Zhang:2009dp}. Figure ~\ref{fig:methodology:mci1} shows the ROI and MCI extracted from three different palms while Figure ~\ref{fig:methodology:mci2} show samples from the same palm. The corresponding matching score is defined as
 
 \begin{equation}
 Y=\frac{
-    2\sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_d(i,j) \cap Z_t(i,j)
+2\sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_d(i,j) \cap Z_t(i,j)
 }
 {
-    \sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_d(i,j) +
-    \sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_t(i,j)
+\sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_d(i,j) +
+\sum \limits_{i=1}^{n} \sum \limits_{j=1}^{m} Z_t(i,j)
 }
 \end{equation}
 

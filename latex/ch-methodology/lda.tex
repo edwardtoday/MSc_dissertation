@@ -31,7 +31,7 @@ H_b=\frac{1}{\sqrt{n}}\left[\sqrt{n_1}(m_1-M),\dots,\sqrt{n_k}(m_k-m) \right]
 H_t=\frac{1}{\sqrt{n}}(X-m\cdot e^T)
 \end{equation}
 
-                                         (9)
+(9)
 where $m_i$ is the centroid of the $i$th class $X_i$, $m$ is the centroid of all the training samples $X$, $e_i=[1,1,\dots,1]^T \in \mathbb{R}^n, i=1,2,\dots,k$ and $e=[1,1,\dots,1]^T \in \mathbb{R}^n$.
 
 After calculating $H_w$, $H_b$ and $H_t$, the reduced Singular Value Decomposition (SVD) is applied to $H_t$.
@@ -69,5 +69,5 @@ After getting the optimal projection $W$, we can map the $1+N+N\times M$ dimensi
 \begin{equation}
 \tilde{F}=W^T F
 \end{equation}
-                                             (15)
+(15)
 where $\tilde{F}={f_1,f_2,\dots,f_{\Gamma}}$ is a $\Gamma$ dimensional vector with $\Gamma<1+N+N\times M$.

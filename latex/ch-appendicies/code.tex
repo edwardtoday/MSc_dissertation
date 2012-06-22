@@ -101,7 +101,8 @@ elseif nargin == 2
 	rep = 0;
 elseif nargin == 3
 	if ~ismember(rep,[0 1])
-		error('Please enter a 1 or a 0 for optional argument rep.')
+		error('Please enter a 1 or a 0 for optional
+		       argument rep.')
 	end
 elseif nargin > 3
 	error('Requires 1,2, or 3 input arguments.');

@@ -1,24 +1,21 @@
-% ****************************************************************************************** % Dissertation template and document class for The Hong Kong Polytechnic University
+% ***********************************************************
+% Dissertation template and document class for 
+%           The Hong Kong Polytechnic University
 % Author  : QING Pei <edwardtoday@gmail.com>
-% Adapted from: http://www.math.princeton.edu/graduate/tex/puthesis.html
-% ****************************************************************************************** %
+% Adapted from: http://engineering.purdue.edu/~mark/puthesis/
+% ***********************************************************
 
 
-%%% For print copies
-%% set 'singlespace' option to set entire thesis to single space, and define "\printmode" to remove all hyperlinks for printed copies of the thesis. Delete all output files before changing this mode -- it will turn hyperref package on and off
-%\documentclass[12pt,lot, lof, singlespace]{hkputhesis}
-%\newcommand{\printmode}{}
-
-%%% For the electronic copy, use doublespacing, define "\proquestmode" to use outlined links, instead of colored links. 
+%%% For the electronic copy, use doublespacing,
+%   define "\printmode" to get all text black for readability
 \documentclass[12pt,lot,lof]{hkputhesis}
-\newcommand{\proquestmode}{}
-% I prefer proquestmode to be off for electronic copies for normal use, since the colored links are less distracting. However when printed in black and white, the colored links are difficult to read. 
+% \newcommand{\printmode}{}
 
 %%% For early drafts without some of the frontmatter
 % Also see the "ifodd" command below to disable more frontmatter
 %\documentclass[12pt]{hkputhesis}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Author & title page info
 
 \title{Palmprint Recognition with Three Dimensional Features}
@@ -26,39 +23,39 @@
 \submitted{June 2012}  % degree conferral date (January, April, June, September, or November)
 \copyrightyear{2012}  % year in which the copyright is secured by publication of the dissertation.
 \author{QING Pei}
-\adviser{Professor David Zhang}  %replace with the full name of your adviser
-%\departmentprefix{Program in}  % defaults to "Department of", but programs need to change this.
-\department{Computing}
+% \adviser{David Zhang}  %replace with the full name of your adviser
+% \departmentprefix{Program in}  % defaults to "Department of", but programs need to change this.
+% \department{Computing}
 \programme{Master of Science in Software Technology}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Tweak float placements
 % From: http://mintaka.sdsu.edu/GF/bibliog/latex/floats.html "Controlling LaTeX Floats"
 % and based on: http://www.tex.ac.uk/cgi-bin/texfaq2html?label=floats
 % LaTeX defaults listed at: http://people.cs.uu.nl/piet/floats/node1.html
 
 % Alter some LaTeX defaults for better treatment of figures:
-    % See p.105 of "TeX Unbound" for suggested values.
-    % See pp. 199-200 of Lamport's "LaTeX" book for details.
-    %   General parameters, for ALL pages:
-    \renewcommand{\topfraction}{0.85}	% max fraction of floats at top
-    \renewcommand{\bottomfraction}{0.6}	% max fraction of floats at bottom
-    %   Parameters for TEXT pages (not float pages):
-    \setcounter{topnumber}{2}
-    \setcounter{bottomnumber}{2}
-    \setcounter{totalnumber}{2}     % 2 may work better
-    \setcounter{dbltopnumber}{2}    % for 2-column pages
-    \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
-    \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
-    %   Parameters for FLOAT pages (not text pages):
-    \renewcommand{\floatpagefraction}{0.66}	% require fuller float pages
+  % See p.105 of "TeX Unbound" for suggested values.
+  % See pp. 199-200 of Lamport's "LaTeX" book for details.
+  %   General parameters, for ALL pages:
+  \renewcommand{\topfraction}{0.85}	% max fraction of floats at top
+  \renewcommand{\bottomfraction}{0.6}	% max fraction of floats at bottom
+  %   Parameters for TEXT pages (not float pages):
+  \setcounter{topnumber}{2}
+  \setcounter{bottomnumber}{2}
+  \setcounter{totalnumber}{4}     % 2 may work better
+  \setcounter{dbltopnumber}{2}    % for 2-column pages
+  \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
+  \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
+  %   Parameters for FLOAT pages (not text pages):
+  \renewcommand{\floatpagefraction}{0.66}	% require fuller float pages
 	% N.B.: floatpagefraction MUST be less than topfraction !!
-    \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
+  \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
 
 % The documentclass already sets parameters to make a high penalty for widows and orphans. 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
-%%%% Use packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Use packages
 
 \usepackage{amsfonts,amsmath}
 
@@ -66,10 +63,11 @@
 \usepackage{graphicx,epstopdf,subfigure}
 
 %%% for comments and listings
-\usepackage{verbatim,minted}
+\usepackage{verbatim}
 
 %%% For tables
 \usepackage{multirow}
+
 % Longtable lets you have tables that span multiple pages.
 \usepackage{longtable}
 \usepackage{lscape}
@@ -106,22 +104,23 @@
 \rfoot{\fancyplain{\minsize\thepage\hspace{1.8em}}{\minsize\thepage\hspace{1.8em}}}
 \pagestyle{fancyplain}
 
+
+%%% Create hyperlinks for cross-references in the document.
+\usepackage{hyperref}
+\hypersetup{bookmarksnumbered}
+% copy the already-set title and author to use in the pdf properties
+\makeatletter
+\hypersetup{pdftitle=\@title,pdfauthor=\@author,pdfcreator=\@author}
+\makeatother
+
 %%% Setting the margins
 \usepackage[top=1in, left=1.8in, bottom=1.4in, right=1.1in]{geometry}
 
-%%% Change chapter heading format
+%%% Change chapter heading format (with text shadow)
 \usepackage{shadowtext}
 \shadowoffsetx{1pt}
 \shadowoffsety{.7pt}
 \usepackage{titlesec}
-
-\titleformat{\section}{\normalfont\sectionsize\bfseries}{\thesection}{1em}{}
-\titlespacing*{\section}{0pt}{-12pt}{6pt}
-\titleformat{\subsection}{\normalfont\titlesize\bfseries}{\thesubsection}{1em}{}
-\titlespacing*{\subsection}{0pt}{-14pt}{6pt}
-\titleformat{\subsubsection}{\normalfont\subsubsectionsize\bfseries}{\thesubsection}{1em}{}
-\titlespacing*{\subsubsection}{0pt}{-16pt}{6pt}
-
 \makeatletter
 \renewcommand{\@makechapterhead}[1]{%
 \vspace*{-6pt}{\setlength{\parindent}{0pt} \raggedright \normalfont
@@ -129,61 +128,73 @@
 }}\vspace*{22pt}}
 \makeatother
 
-%%% Change bibname to References
+% change fontsize for section/subsection/subsubsection headings
+\titleformat{\section}{\normalfont\sectionsize}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\subsectionsize}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\subsubsectionsize}{\thesubsection}{1em}{}
+
+% Change spacing for headings. Please ignore the actual numbers.
+% They are tweaked by comparing PDF outputs to the Word template. --!
+\titlespacing*{\section}{0pt}{-12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{-14pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{-16pt}{6pt}
+
+%%% Change heading format of References
 \renewcommand*{\bibname}{References}
 \makeatletter
 \renewenvironment{thebibliography}[1]{
-	\clearpage
-    \ifdefined\phantomsection
-      \phantomsection
-    \else
-    \fi
-    \addcontentsline{toc}{chapter}{\bibname}
-    \vspace*{-12pt}
-    \begin{doublespace}
-    {\titlesize\bfseries \bibname}
-    \end{doublespace}
-    \vspace*{6pt}
-	\onehalfspacing
-      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-      \list{\@biblabel{\@arabic\c@enumiv}}%
-           {\settowidth\labelwidth{\@biblabel{#1}}%
-            \leftmargin\labelwidth
-            \advance\leftmargin\labelsep
-            \@openbib@code
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \sloppy
-      \clubpenalty4000
-      \@clubpenalty \clubpenalty
-      \widowpenalty4000%
-      \sfcode`\.\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
-\makeatother
+\clearpage
+\ifdefined\phantomsection
+\phantomsection
+\else
+\fi
+\addcontentsline{toc}{chapter}{\bibname}
+\vspace*{-12pt}
+\begin{doublespace}
+  {\subsectionsize\bfseries \bibname}
+\end{doublespace}
+\vspace*{6pt}
+\onehalfspacing
+\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+\list{\@biblabel{\@arabic\c@enumiv}}{
+  \settowidth\labelwidth{\@biblabel{#1}}%
+  \leftmargin\labelwidth
+  \advance\leftmargin\labelsep
+  \@openbib@code
+  \usecounter{enumiv}%
+  \let\p@enumiv\@empty
+  \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+\sloppy
+\clubpenalty4000
+\@clubpenalty \clubpenalty
+\widowpenalty4000%
+\sfcode`\.\@m}{
+  \def\@noitemerr
+  {\@latex@warning{Empty `thebibliography' environment}}%
+  \endlist}
+ \makeatother
 
-%%% Set appendix title format
+%%% Set heading format for Appendix
 \usepackage{appendix}
 \makeatletter
 \newcommand\appendix@chapter[1]{%
   \refstepcounter{chapter}%
-  \orig@chapter*{\vspace*{-72pt}\titlesize\bfseries Appendix \@Alph\c@chapter: #1 \vspace*{-36pt}}%
+  \orig@chapter*{\vspace*{-72pt}\subsectionsize\bfseries Appendix \@Alph\c@chapter: #1 \vspace*{-36pt}}%
   \addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}%
-}
-\let\orig@chapter\chapter
-\g@addto@macro\appendix{\let\chapter\appendix@chapter}
-\makeatother
+  }
+  \let\orig@chapter\chapter
+  \g@addto@macro\appendix{\let\chapter\appendix@chapter}
+  \makeatother
 
 
-%%% Changes to table of contents
+%%% Set Table of Contents format
 \renewcommand\contentsname{Table of Contents}
 \usepackage[subfigure]{tocloft}
 \renewcommand{\cftbeforechapskip}{0pt}
 \renewcommand{\cftbeforetoctitleskip}{6pt}
 \renewcommand{\cftaftertoctitleskip}{12pt}
-\renewcommand\cfttoctitlefont{\titlesize\bfseries}
+% Set ToC heading size the same as that of Abstract
+\renewcommand\cfttoctitlefont{\subsectionsize\bfseries}
 \renewcommand\cftchapfont{\tocchapsize\bfseries}
 \renewcommand\cftchappresnum{Chapter } % prefix "Chapter " to chapter number in ToC
 \cftsetindents{chapter}{0em}{5em}      % set amount of indenting
@@ -192,65 +203,38 @@
 
 \renewcommand{\cftbeforeloftitleskip}{6pt}
 \renewcommand{\cftafterloftitleskip}{18pt}
-\renewcommand\cftloftitlefont{\titlesize\bfseries}
-\renewcommand\cftfigpresnum{Figure }
+\renewcommand\cftloftitlefont{\subsectionsize\bfseries}
+\renewcommand\cftfigpresnum{Figure }  % prefix "Figure " to entries in LoF
 \cftsetindents{figure}{0em}{5em}      % set amount of indenting
 
 \renewcommand{\cftbeforelottitleskip}{6pt}
 \renewcommand{\cftafterlottitleskip}{18pt}
-\renewcommand\cftlottitlefont{\titlesize\bfseries}
-\renewcommand\cfttabpresnum{Table }
+\renewcommand\cftlottitlefont{\subsectionsize\bfseries}
+\renewcommand\cfttabpresnum{Table }	 % prefix "Table " to entries in LoT
 \cftsetindents{table}{0em}{5em}      % set amount of indenting
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
-\ifdefined\printmode
 
-% Printed copy
+\ifdefined\printmode
 % url package understands urls (with proper line-breaks) without hyperlinking them
 \usepackage{url}
-
-
-\else
-
-\ifdefined\proquestmode
-%ProQuest copy -- http://www.princeton.edu/~mudd/thesis/Submissionguide.pdf
-
-% ProQuest requires a double spaced version (set previously). They will take an electronic copy, so we want links in the pdf, but also copies may be printed or made into microfilm in black and white, so we want outlined links instead of colored links.
-\usepackage{hyperref}
-\hypersetup{bookmarksnumbered}
-
-% copy the already-set title and author to use in the pdf properties
-\makeatletter
-\hypersetup{pdftitle=\@title,pdfauthor=\@author}
-\makeatother
+\usepackage{minted}
+\usemintedstyle{bw}		% turn off code highlighting
 
 \else
 % Online copy
-
-% adds internal linked references, pdf bookmarks, etc
-
-% turn all references and citations into hyperlinks:
-%  -- not for printed copies
-% -- automatically includes url package
-% options:
-%   colorlinks makes links by coloring the text instead of putting a rectangle around the text.
-\usepackage{hyperref}
-\hypersetup{colorlinks,bookmarksnumbered}
-
-% copy the already-set title and author to use in the pdf properties
-\makeatletter
-\hypersetup{pdftitle=\@title,pdfauthor=\@author}
-\makeatother
+\usepackage{minted}
+\usemintedstyle{tango}	% turn on code highlighting
 
 % make the page number rather than the text be the link for ToC entries
 %\hypersetup{linktocpage}
-\fi % proquest or online formatting
-\fi % printed or online formatting
+
+\fi % print or online formatting
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Define commands
 
 % Define any custom commands that you want to use.
@@ -262,49 +246,53 @@
 % see: http://latex.computersci.org/Reference/ListEnvironments
 % 	\raggedright makes them left aligned instead of justified
 \newenvironment{indenttext}{
-    \begin{list}{}{ \itemsep 0in \itemindent 0in
-    \labelsep 0in \labelwidth 0in
-    \listparindent 0in
-    \topsep 0in \partopsep 0in \parskip 0in \parsep 0in
-    \leftmargin 1em \rightmargin 0in
-    \raggedright
-    }
-    \item
-  }
-  {\end{list}}
+\begin{list}{}{ \itemsep 0in \itemindent 0in
+\labelsep 0in \labelwidth 0in
+\listparindent 0in
+\topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+\leftmargin 1em \rightmargin 0in
+\raggedright
+}
+\item
+}
+{\end{list}}
 
-% another environment that's an indented list, with no spaces between items -- if we want multiple items/lines. Useful in tables. Use \item inside the environment.
-% 	\raggedright makes them left aligned instead of justified
+% another environment that's an indented list, with no spaces
+% between items -- if we want multiple items/lines. Useful in
+% tables. Use \item inside the environment.
+% \raggedright makes them left aligned instead of justified
 \newenvironment{indentlist}{
-    \begin{list}{}{ \itemsep 0in \itemindent 0in
-    \labelsep 0in \labelwidth 0in
-    \listparindent 0in
-    \topsep 0in \partopsep 0in \parskip 0in \parsep 0in
-    \leftmargin 1em \rightmargin 0in
-    \raggedright
-    }
+\begin{list}{}{ \itemsep 0in \itemindent 0in
+\labelsep 0in \labelwidth 0in
+\listparindent 0in
+\topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+\leftmargin 1em \rightmargin 0in
+\raggedright
+}
 
-  }
-  {\end{list}}
+}
+{\end{list}}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Front-matter
 
-% For early drafts, you may want to disable some of the frontmatter. Simply change this to "\ifodd 1" to do so.
+% For early drafts, you may want to disable some of the frontmatter.
+% Simply change this to "\ifodd 1" to do so.
 \ifodd 0
 % front-matter disabled while writing chapters
 \renewcommand{\maketitlepage}{}
 \renewcommand*{\makeauthorshipstatement}{}
 \renewcommand*{\makeabstract}{}
 
-% you can just skip the \acknowledgements and \dedication commands to leave out these sections.
+% you can just skip the \acknowledgements and \dedication commands
+% to leave out these sections.
 
 \else
 
 \abstract{
-% Abstract can be any length, but should be max 350 words for a Dissertation for ProQuest's print indicies (150 words for a Master's Thesis) or it will be truncated for those uses.
+% Import the abstract file.
 \input{abstract}
 }
 
@@ -318,10 +306,11 @@
 \fi  % disable frontmatter
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Hide some chapters
 
-%%% If you want to produce a pdf that includes only certain chapters, specify them with includeonly, in addition to including all chapters below.
+%%% If you want to produce a pdf that includes only certain chapters, specify 
+%   them with includeonly, in addition to including all chapters below.
 %\includeonly{ch-intro/chapter-intro}
 %%% You can also specify multiple chapters.
 %\includeonly{ch-intro/chapter-intro,ch-usage/chapter-usage}
@@ -352,11 +341,9 @@
 \include{ch-experiment/chapter-experiment}
 \include{ch-conclusion/chapter-conclusion}
 
-
 % include your .bib file
 \bibliographystyle{unsrt}
 \bibliography{thesis}
-
 
 \appendix % all chapters following will be labeled as appendices
 \include{ch-appendicies/code}
