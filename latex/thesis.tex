@@ -29,6 +29,7 @@
 \adviser{Professor David Zhang}  %replace with the full name of your adviser
 %\departmentprefix{Program in}  % defaults to "Department of", but programs need to change this.
 \department{Computing}
+\programme{Master of Science in Software Technology}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\
 %%%% Tweak float placements
@@ -62,17 +63,10 @@
 \usepackage{amsfonts,amsmath}
 
 %%% For figures
-\usepackage{graphicx}
-\usepackage{epstopdf}
+\usepackage{graphicx,epstopdf,subfigure}
 
-\usepackage{subfigure}
-%\usepackage{subfig,rotate}
-
-%%% for comments
-\usepackage{verbatim}
-
-%%% for code
-\usepackage{minted}
+%%% for comments and listings
+\usepackage{verbatim,minted}
 
 %%% For tables
 \usepackage{multirow}
@@ -80,7 +74,7 @@
 \usepackage{longtable}
 \usepackage{lscape}
 \usepackage[tableposition=top]{caption}
-\captionsetup[table]{labelsep=period}
+\captionsetup[table]{labelsep=period}  % Change colon in "Table ##:" to "."
 
 % Booktabs produces far nicer tables than the standard LaTeX tables.
 %   see: http://en.wikibooks.org/wiki/LaTeX/Tables
@@ -90,9 +84,12 @@
 % default caption width is 4in for longtable, but wider for normal tables
 \setlength{\LTcapwidth}{\textwidth}
 
+%%% Date formatting 
+\usepackage{datetime}
+
 %%% Set fonts
-\usepackage{mathptmx} % defines Adobe Times Roman (or equivalent) as default text font
-%\usepackage{pslatex} % basically a merger of the times and the (obsolete) mathptm packages
+% defines Adobe Times Roman (or equivalent) as default text font
+\usepackage{mathptmx}
 
 %%% Set line spacing
 \usepackage{setspace}
@@ -100,55 +97,111 @@
 
 %%% Turn off indentation globally
 \usepackage{parskip}
-\setlength{\parskip}{17pt} % to simulate a blank line between paragraphs
+\setlength{\parskip}{18pt} % to simulate a blank line between paragraphs
 
 %%% Page number at bottom right
 \usepackage{fancyhdr}
 \fancyhf{} % clear all header and footers
 \renewcommand{\headrulewidth}{0pt} % remove the header rule
-\rfoot{\fancyplain{\thepage\hspace{1.8em}}{\thepage\hspace{1.8em}}}
+\rfoot{\fancyplain{\minsize\thepage\hspace{1.8em}}{\minsize\thepage\hspace{1.8em}}}
 \pagestyle{fancyplain}
 
 %%% Setting the margins
-\usepackage[top=1in, left=1.8in, bottom=1.8in, right=1in]{geometry}
+\usepackage[top=1in, left=1.8in, bottom=1.4in, right=1.1in]{geometry}
 
 %%% Change chapter heading format
 \usepackage{shadowtext}
+\shadowoffsetx{1pt}
+\shadowoffsety{.7pt}
 \usepackage{titlesec}
+
+\titleformat{\section}{\normalfont\sectionsize\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{-12pt}{6pt}
+\titleformat{\subsection}{\normalfont\titlesize\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{-14pt}{6pt}
+\titleformat{\subsubsection}{\normalfont\subsubsectionsize\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{-16pt}{6pt}
+
 \makeatletter
 \renewcommand{\@makechapterhead}[1]{%
-\vspace*{24pt}{\setlength{\parindent}{0pt} \raggedright \normalfont
+\vspace*{-6pt}{\setlength{\parindent}{0pt} \raggedright \normalfont
 \bfseries\chaptersize \shadowtext{\chaptertitlename\ \thechapter \quad\ #1
-}}\vspace*{12pt}}
+}}\vspace*{22pt}}
 \makeatother
-\titleformat{\section}{\normalfont\sectionsize\bfseries}{\thesection}{1em}{}
-\titlespacing*{\section}{0pt}{18pt}{12pt}
-\titleformat{\subsection}{\normalfont\titlesize\bfseries}{\thesubsection}{1em}{}
-\titlespacing*{\subsection}{0pt}{12pt}{12pt}
-\titleformat{\subsubsection}{\normalfont\subsubsectionsize\bfseries}{\thesubsection}{1em}{}
-\titlespacing*{\subsubsection}{0pt}{12pt}{12pt}
 
-%%% Changes to table of contents
-\renewcommand\contentsname{Table of Contents}
-\usepackage[subfigure]{tocloft}
-% \setlength{\cftchapnumwidth}{0pt}
-% \setlength{\cftbeforechapskip}{\baselineskip}
-\renewcommand\cftchappresnum{Chapter } % prefix "Chapter " to chapter number in ToC
-\cftsetindents{chapter}{0em}{5em}      % set amount of indenting
-\renewcommand{\cftchapdotsep}{\cftdotsep}
+%%% Change bibname to References
+\renewcommand*{\bibname}{References}
+\makeatletter
+\renewenvironment{thebibliography}[1]{
+	\clearpage
+    \ifdefined\phantomsection
+      \phantomsection
+    \else
+    \fi
+    \addcontentsline{toc}{chapter}{\bibname}
+    \vspace*{-12pt}
+    \begin{doublespace}
+    {\titlesize\bfseries \bibname}
+    \end{doublespace}
+    \vspace*{6pt}
+	\onehalfspacing
+      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+\makeatother
 
+%%% Set appendix title format
+\usepackage{appendix}
 \makeatletter
 \newcommand\appendix@chapter[1]{%
   \refstepcounter{chapter}%
-  \orig@chapter*{Appendix \@Alph\c@chapter: #1}%
+  \orig@chapter*{\vspace*{-72pt}\titlesize\bfseries Appendix \@Alph\c@chapter: #1 \vspace*{-36pt}}%
   \addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}%
 }
 \let\orig@chapter\chapter
 \g@addto@macro\appendix{\let\chapter\appendix@chapter}
 \makeatother
 
-%%% Change bibname to References
-\renewcommand*{\bibname}{References}
+
+%%% Changes to table of contents
+\renewcommand\contentsname{Table of Contents}
+\usepackage[subfigure]{tocloft}
+\renewcommand{\cftbeforechapskip}{0pt}
+\renewcommand{\cftbeforetoctitleskip}{6pt}
+\renewcommand{\cftaftertoctitleskip}{12pt}
+\renewcommand\cfttoctitlefont{\titlesize\bfseries}
+\renewcommand\cftchapfont{\tocchapsize\bfseries}
+\renewcommand\cftchappresnum{Chapter } % prefix "Chapter " to chapter number in ToC
+\cftsetindents{chapter}{0em}{5em}      % set amount of indenting
+\makeatletter \renewcommand{\@dotsep}{1} \makeatother
+\renewcommand{\cftchapdotsep}{\cftdotsep}
+
+\renewcommand{\cftbeforeloftitleskip}{6pt}
+\renewcommand{\cftafterloftitleskip}{18pt}
+\renewcommand\cftloftitlefont{\titlesize\bfseries}
+\renewcommand\cftfigpresnum{Figure }
+\cftsetindents{figure}{0em}{5em}      % set amount of indenting
+
+\renewcommand{\cftbeforelottitleskip}{6pt}
+\renewcommand{\cftafterlottitleskip}{18pt}
+\renewcommand\cftlottitlefont{\titlesize\bfseries}
+\renewcommand\cfttabpresnum{Table }
+\cftsetindents{table}{0em}{5em}      % set amount of indenting
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Printed vs. online formatting
@@ -300,18 +353,10 @@
 \include{ch-conclusion/chapter-conclusion}
 
 
-% add the Bibliography to the Table of Contents
-\cleardoublepage
-\ifdefined\phantomsection
-   \phantomsection  % makes hyperref recognize this section properly for pdf link
-\else
-\fi
-\addcontentsline{toc}{chapter}{\bibname}
-
 % include your .bib file
+\bibliographystyle{unsrt}
 \bibliography{thesis}
 
-\bibliographystyle{unsrt}
 
 \appendix % all chapters following will be labeled as appendices
 \include{ch-appendicies/code}

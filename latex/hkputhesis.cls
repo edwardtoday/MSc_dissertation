@@ -25,7 +25,7 @@
   % only if we have the hyperref command that is necessary
   \ifdefined\pdfbookmark
      \phantomsection
-     \pdfbookmark[1]{\contentsname}{Table of Contents}
+     \pdfbookmark[0]{\contentsname}{Table of Contents}
   \else
   \fi
 
@@ -42,6 +42,8 @@
 \newcommand*{\tablespacing}{
   \singlespacing
 }
+\newcommand{\minsize}{\fontsize{10pt}{10pt}\selectfont}
+\newcommand{\tocchapsize}{\fontsize{12pt}{12pt}\selectfont}
 \newcommand{\titlesize}{\fontsize{16pt}{20pt}\selectfont} % also used for subsection title
 \newcommand{\chaptersize}{\fontsize{22pt}{28pt}\selectfont}
 \newcommand{\sectionsize}{\fontsize{18pt}{22pt}\selectfont}
@@ -66,29 +68,31 @@
 \mainmatter
 }
 \def\@submitted{\@submittedmonth~\@submittedyear}
+\def\@polyu{The Hong Kong Polytechnic University}
 \def\@dept{Mathematics}
 \def\@deptpref{Department of}
 \def\departmentprefix#1{\gdef\@deptpref{#1}}
 \def\department#1{\gdef\@dept{#1}}
+\def\programme#1{\gdef\@programme{#1}}
 \long\def\acknowledgements#1{\gdef\@acknowledgements{#1}}
 \def\dedication#1{\gdef\@dedication{#1}}
 \newcommand{\maketitlepage}{{
   \thispagestyle{empty}
   \vspace*{1.33in}
   \begin{center}
-    {\titlesize \textbf{\@title}}
+    {\titlesize\bfseries \@title}
   \end{center}
   \vspace*{1.57in}
   \begin{center}
-    {\titlesize \textbf{\@author}}
+    {\titlesize\bfseries \@author}
   \end{center}
-  \vspace*{1in}
+  \vspace*{.8in}
   \begin{center}
-    {\titlesize \textbf{Master of Science in Software Technology}}
+    {\titlesize\bfseries \@programme}
   \end{center}
-  \vspace{.5in}
+  \vspace{.47in}
   \begin{center}
-    {\titlesize \textbf{The Hong Kong Polytechnic University}}
+    {\titlesize\bfseries \@polyu}
   \end{center}
   \vspace{.2in}
   \extravspace{.3in}
@@ -101,44 +105,60 @@
   \vspace{.3in}
   \extravspace{.3in}
   \begin{center}
-    {\titlesize \textbf{\@submitted}}
+    {\titlesize\bfseries\@submitted}
   \end{center}
   \clearpage
   }}
 \newcommand*{\makeauthorshipstatement}{
   \newpage
+  \ifdefined\phantomsection
+  % makes hyperref recognize this section properly for pdf links
+    \phantomsection
+  \else
+  \fi
   \addcontentsline{toc}{chapter}{Statement of Authorship}
-  \vspace*{24pt}
+  \vspace*{-12pt}
   \begin{doublespace}
-  {\titlesize \textbf{Statement of Authorship}}
+  {\titlesize\bfseries Statement of Authorship}
   \end{doublespace}
-  \vspace*{12pt}
-
+  \vspace*{6pt}
+  \begin{singlespace}
 Except where reference is made in the text of this dissertation, this dissertation contains no material published elsewhere or extracted in whole or in part from a dissertation presented by me for another degree or diploma.
 
 No other person’s work has been used without due acknowledgement in the main text of the dissertation.
 
 This dissertation has not been submitted for the award of any other degree or diploma in any other tertiary institution.
 
-  \vspace{5cm}
+  \vspace{4cm}
 
   \noindent\rule{.4\linewidth}{0.3pt}
 
   Name: \@author
 
-  Dated: \today
+  Dated: \ddmmyyyydate \today
+
+\end{singlespace}
   \clearpage
 }
 \newcommand*{\makeabstract}{
   \newpage
-  \addcontentsline{toc}{chapter}{Abstract}
-  \vspace*{24pt}
-  \begin{doublespace}
-  {\titlesize \textbf{Abstract}}
-  \end{doublespace}
-  \vspace*{12pt}
-  \@abstract
-  \clearpage
+  \ifx\@abstract\undefined
+  \else
+    \ifdefined\phantomsection
+     % makes hyperref recognize this section properly for pdf links
+     \phantomsection
+    \else
+    \fi
+
+    \addcontentsline{toc}{chapter}{Abstract}
+    \vspace*{-12pt}
+    \begin{doublespace}
+    {\titlesize\bfseries Abstract}
+    \end{doublespace}
+    \vspace*{6pt}
+    \@abstract
+    \clearpage
+  \fi
   }
 \def\makeacknowledgements{
   \ifx\@acknowledgements\undefined
@@ -150,11 +170,11 @@ This dissertation has not been submitted for the award of any other degree or di
     \fi
 
     \addcontentsline{toc}{chapter}{Acknowledgements}
-    \vspace*{24pt}
+    \vspace*{-12pt}
 	\begin{doublespace}
-    {\titlesize \textbf{Acknowledgements}}
+    {\titlesize\bfseries Acknowledgements}
     \end{doublespace}
-    \vspace*{12pt}
+    \vspace*{6pt}
     \@acknowledgements
     \clearpage
   \fi
@@ -233,6 +253,7 @@ This dissertation has not been submitted for the award of any other degree or di
 %% 'begincmd' no longer used -- insert \makefrontmatter in the document instead. See above.
 %\AtBeginDocument{\begincmd}
 \endinput
+
 
 %%
 %% End of file `hkputhesis.cls'.
