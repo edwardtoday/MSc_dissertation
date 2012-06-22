@@ -137,6 +137,15 @@
 \cftsetindents{chapter}{0em}{5em}      % set amount of indenting
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 
+\makeatletter
+\newcommand\appendix@chapter[1]{%
+  \refstepcounter{chapter}%
+  \orig@chapter*{Appendix \@Alph\c@chapter: #1}%
+  \addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}%
+}
+\let\orig@chapter\chapter
+\g@addto@macro\appendix{\let\chapter\appendix@chapter}
+\makeatother
 
 %%% Change bibname to References
 \renewcommand*{\bibname}{References}
@@ -300,12 +309,13 @@
 \addcontentsline{toc}{chapter}{\bibname}
 
 % include your .bib file
-\bibliography{main}
+\bibliography{thesis}
 
 \bibliographystyle{unsrt}
 
 \appendix % all chapters following will be labeled as appendices
 \include{ch-appendicies/code}
 % \include{ch-appendicies/printing}
+
 \end{document}
 
