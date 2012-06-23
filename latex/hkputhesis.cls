@@ -127,7 +127,7 @@
   \begin{singlespace}
   Except where reference is made in the text of this dissertation, this dissertation contains no material published elsewhere or extracted in whole or in part from a dissertation presented by me for another degree or diploma.
 
-  No other person’s work has been used without due acknowledgement in the main text of the dissertation.
+  No other \text{person's} work has been used without due acknowledgement in the main text of the dissertation.
 
   This dissertation has not been submitted for the award of any other degree or diploma in any other tertiary institution.
 
