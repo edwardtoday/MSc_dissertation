@@ -1,3 +1,4 @@
+%!TEX root = ../thesis.tex
 \section{Hardware}
 \label{sec:pastwork:hardware}
 
@@ -7,9 +8,9 @@ Different approaches are available for 3D imaging including laser scanning~\cite
 
 % http://en.wikipedia.org/wiki/Structured-light_3D_scanner
 
-Projecting a narrow band of light onto a three-dimensionally shaped surface produces a line of illumination that appears distorted from other perspectives than that of the projector, and can be used for an exact geometric reconstruction of the surface shape (light section).
+If a surface is not flat, a narrow band of light would appear distorted when projected onto the shaped surface when viewing from any perspective other than that of the projector. And the geometry of part the 3D surface lit by the projected strip can be reconstructed by using the measured distortion.
 
-A faster and more versatile method is the projection of patterns consisting of many stripes at once, or of arbitrary fringes, as this allows for the acquisition of a multitude of samples simultaneously. Seen from different viewpoints, the pattern appears geometrically distorted due to the surface shape of the object.
+The bands of light can be projected one after another. Or, to be faster and more efficient, patterns of a group of strips can be projected all at once so that a multitude of samples can be simultaneously acquired. The distortion of the pattern, when seen from a different viewpoint other than that of the projector, can be used to reconstruct the entire geometry of the 3D surface.
 
 \begin{figure}[htb]
 \begin{center}
@@ -19,7 +20,7 @@ A faster and more versatile method is the projection of patterns consisting of m
 \end{center}
 \end{figure}
 
-Although many other variants of structured light projection are possible, patterns of parallel stripes are widely used. Figure~\ref{fig:pastwork:strippattern} shows the geometrical deformation of a strip pattern projected onto a palm. The displacement of the stripes allows for an exact retrieval of the 3D coordinates of any details on the palm's surface.
+Various patterns of strips are possible, among which patterns of parallel structured light stripes projection are widely used. Figure~\ref{fig:pastwork:strippattern} shows the geometrical deformation of a strip pattern projected onto a palm. An exact recovery of 3D coordinates can be retrieved by applying calculations on the displacement of the stripes. Precision of this approach has been proved to be the best available.
 
 \begin{figure}[htb]
 \begin{center}
@@ -34,7 +35,7 @@ Figure ~\ref{fig:pastwork:device} shows the 3D palmprint capturing device design
 \begin{figure}[htb]
 \begin{center}
 \includegraphics[width=0.9\linewidth]{ch-pastwork/figures/strippattern}
-\caption[Sample patterns of the stripes on the palm]{Sample patterns of the stripes on the palm~\cite{Li:2009eq}}
+\caption[Parallel pattern of the stripes projected on a palm sample]{Parallel pattern of the stripes projected on a palm sample~\cite{Li:2009eq}}
 \label{fig:pastwork:strippattern}
 \end{center}
 \end{figure}
