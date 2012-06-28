@@ -42,7 +42,7 @@
 \newcommand*{\tablespacing}{
 \singlespacing
 }
-\newcommand{\minsize}{\fontsize{10pt}{10pt}\selectfont\bfseries}
+\newcommand{\minsize}{\fontsize{10pt}{10pt}\selectfont}
 \newcommand{\tocchapsize}{\fontsize{12pt}{12pt}\selectfont\bfseries}
 \newcommand{\chaptersize}{\fontsize{22pt}{28pt}\selectfont\bfseries}
 \newcommand{\sectionsize}{\fontsize{18pt}{22pt}\selectfont\bfseries}
