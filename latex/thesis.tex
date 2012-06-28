@@ -1,5 +1,5 @@
 % ***********************************************************
-% Dissertation template and document class for 
+% Dissertation template and document class for
 %           The Hong Kong Polytechnic University
 % Author  : QING Pei <edwardtoday@gmail.com>
 % Adapted from: http://engineering.purdue.edu/~mark/puthesis/
@@ -9,7 +9,7 @@
 %%% For the electronic copy, use doublespacing,
 %   define "\printmode" to get all text black for readability
 \documentclass[12pt,lot,lof]{hkputhesis}
-% \newcommand{\printmode}{}
+\newcommand{\printmode}{}
 
 %%% For early drafts without some of the frontmatter
 % Also see the "ifodd" command below to disable more frontmatter
@@ -62,7 +62,7 @@
 	% N.B.: floatpagefraction MUST be less than topfraction !!
   \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
 
-% The documentclass already sets parameters to make a high penalty for widows and orphans. 
+% The documentclass already sets parameters to make a high penalty for widows and orphans.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Use packages
@@ -92,7 +92,7 @@
 % default caption width is 4in for longtable, but wider for normal tables
 \setlength{\LTcapwidth}{\textwidth}
 
-%%% Date formatting 
+%%% Date formatting
 \usepackage{datetime}
 
 %%% Set fonts
@@ -185,15 +185,20 @@
 
 %%% Set heading format for Appendix
 \usepackage{appendix}
+\usepackage{appendix}
 \makeatletter
-\newcommand\appendix@chapter[1]{%
-  \refstepcounter{chapter}%
-  \orig@chapter*{\vspace*{-72pt}\subsectionsize\bfseries Appendix \@Alph\c@chapter: #1 \vspace*{-36pt}}%
-  \addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}%
-  }
-  \let\orig@chapter\chapter
-  \g@addto@macro\appendix{\let\chapter\appendix@chapter}
-  \makeatother
+\newcommand\appendix@chapter[1]{
+	\refstepcounter{chapter}
+	\orig@chapter*{
+		\vspace*{-72pt}
+		\subsectionsize\bfseries Appendix \@Alph\c@chapter: #1
+		\vspace*{-36pt}
+	}
+	\addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}
+}
+\let\orig@chapter\chapter
+\g@addto@macro\appendix{\let\chapter\appendix@chapter}
+\makeatother
 
 
 %%% Set Table of Contents format
@@ -229,13 +234,45 @@
 \ifdefined\printmode
 % url package understands urls (with proper line-breaks) without hyperlinking them
 \usepackage{url}
-\usepackage{minted}
-\usemintedstyle{bw}		% turn off code highlighting
-
+% turn off code highlighting
+\usepackage{listings}
+\lstset{language=Matlab,
+   keywords={break,case,catch,continue,else,elseif,end,for,function,
+      global,if,otherwise,persistent,return,switch,try,while},
+   basicstyle=\ttfamily,
+   keywordstyle=\bfseries\color{black},
+   commentstyle=\color{black},
+   stringstyle=\color{black},
+   numbers=left,
+   numberstyle=\tiny\color{black},
+   stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=4,
+   showspaces=false,
+   showstringspaces=false}
 \else
 % Online copy
-\usepackage{minted}
-\usemintedstyle{tango}	% turn on code highlighting
+% turn on code highlighting
+\usepackage{color}
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\lstset{language=Matlab,
+   keywords={break,case,catch,continue,else,elseif,end,for,function,
+      global,if,otherwise,persistent,return,switch,try,while},
+   basicstyle=\ttfamily,
+   keywordstyle=\color{blue},
+   commentstyle=\color{gray},
+   stringstyle=\color{dkgreen},
+   numbers=left,
+   numberstyle=\tiny\color{red},
+   stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=4,
+   showspaces=false,
+   showstringspaces=false}
 
 % make the page number rather than the text be the link for ToC entries
 %\hypersetup{linktocpage}
@@ -318,7 +355,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Hide some chapters
 
-%%% If you want to produce a pdf that includes only certain chapters, specify 
+%%% If you want to produce a pdf that includes only certain chapters, specify
 %   them with includeonly, in addition to including all chapters below.
 %\includeonly{ch-intro/chapter-intro}
 %%% You can also specify multiple chapters.
