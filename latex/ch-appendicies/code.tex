@@ -25,8 +25,7 @@ function result = createArrays(nArrays, arraySize, datatype)
     end
 end
 \end{lstlisting} %\end{minted}
-
-% \clearpage
+\clearpage
 
 Code to find the reference plane.
 
@@ -35,16 +34,15 @@ function [ d_ref ] = find_ref_plane( roi )
 %FIND_REF_PLANE Find the depth of reference plane of an ROI
 %   Detailed explanation goes here
 
-	[~,roi_size] = size(roi);
+    [~,roi_size] = size(roi);
 
-	refplane = roi(1:(roi_size*0.25),
-	 (roi_size*0.25):(roi_size*0.9));
+    refplane = roi(1:(roi_size*0.25),
+     (roi_size*0.25):(roi_size*0.9));
 
-	d_ref = max(max(refplane));
+    d_ref = max(max(refplane));
 
 end
 \end{lstlisting} %\end{minted}
-
 \clearpage
 
 Code to extract the X coordinates from original data.
@@ -62,7 +60,7 @@ file_list = char({file_list.name});
 %% Get X coordinates from file
 tic;
 dat_file = reshape(dlmread([load_dir filesep file_list(1,:)]),
-			   768,576,3);
+               768,576,3);
 palmX=dat_file(:,1,1);
 
 %% Save result to file
@@ -70,7 +68,6 @@ save_dir = ['output'];
 save([save_dir filesep '3Dpalm_x.mat'],'palmX');
 toc;
 \end{lstlisting} %\end{minted}
-
 \clearpage
 
 Code to remove outliers from a vector.
@@ -79,39 +76,42 @@ Code to remove outliers from a vector.
 function [b,idx,outliers] = deleteoutliers(a,alpha,rep);
 % [B, IDX, OUTLIERS] = DELETEOUTLIERS(A, ALPHA, REP)
 %
-% For input vector A, returns a vector B with outliers (at the
-% significance level alpha) removed. Also, optional output
-% argument idx returns the indices in A of outlier values. Optional
-% output argument outliers returns the outlying values in A.
+%   For input vector A, returns a vector B with
+%   outliers (at the significance level alpha) removed.
+%   Also, optional output argument idx returns the
+%   indices in A of outlier values. Optional output
+%   argument outliers returns the outlying values in A.
 %
-% ALPHA is the significance level for determination of outliers.
-% If not provided, alpha defaults to 0.05.
+%   ALPHA is the significance level for determination of outliers.
+%   If not provided, alpha defaults to 0.05.
 %
-% REP is an optional argument that forces the replacement of
-% removed elements with NaNs to presereve the length of a.
+%   REP is an optional argument that forces the replacement of removed elements with NaNs to
+%   presereve the length of a.
 %
-% This is an iterative implementation of the Grubbs Test that
-% tests one value at a time. In any given iteration, the tested
-% value is either thehighest value, or the lowest, and is the
-% value that is furthest from the sample mean. Infinite elements
-% are discarded if rep is 0, or replaced with NaNs if rep is 1.
-%
+%   This is an iterative implementation of the Grubbs
+%   Test that tests one value at a time. In any given
+%   iteration, the tested value is either thehighest
+%   value, or the lowest, and is the value that is
+%   furthest from the sample mean. Infinite elements
+%   are discarded if rep is 0, or replaced with NaNs
+%   if rep is 1.
+
 if nargin == 1
-	alpha = 0.05;
-	rep = 0;
+    alpha = 0.05;
+    rep = 0;
 elseif nargin == 2
-	rep = 0;
+    rep = 0;
 elseif nargin == 3
-	if ~ismember(rep,[0 1])
-		error('Please enter a 1 or a 0 for optional
-		       argument rep.')
-	end
+    if ~ismember(rep,[0 1])
+        error('Please enter a 1 or a 0 for optional
+               argument rep.')
+    end
 elseif nargin > 3
-	error('Requires 1,2, or 3 input arguments.');
+    error('Requires 1,2, or 3 input arguments.');
 end
 
 if isempty(alpha)
-	alpha = 0.05;
+    alpha = 0.05;
 end
 
 b = a;
@@ -120,30 +120,30 @@ b(isinf(a)) = NaN;
 %Delete outliers:
 outlier = 1;
 while outlier
-	tmp = b(~isnan(b));
-	meanval = mean(tmp);
-	maxval = tmp(find(abs(tmp-mean(tmp))==
-				      max(abs(tmp-mean(tmp)))
-				     ));
-	maxval = maxval(1);
-	sdval = std(tmp);
-	tn = abs((maxval-meanval)/sdval);
-	critval = zcritical(alpha,length(tmp));
-	outlier = tn > critval;
-	if outlier
-		tmp = find(a == maxval);
-		b(tmp) = NaN;
-	end
+    tmp = b(~isnan(b));
+    meanval = mean(tmp);
+    maxval = tmp(find(abs(tmp-mean(tmp))==
+                      max(abs(tmp-mean(tmp)))
+                     ));
+    maxval = maxval(1);
+    sdval = std(tmp);
+    tn = abs((maxval-meanval)/sdval);
+    critval = zcritical(alpha,length(tmp));
+    outlier = tn > critval;
+    if outlier
+        tmp = find(a == maxval);
+        b(tmp) = NaN;
+    end
 end
 
 if nargout >= 2
-	idx = find(isnan(b));
+    idx = find(isnan(b));
 end
 if nargout > 2
-	outliers = a(idx);
+    outliers = a(idx);
 end
 if ~rep
-	b=b(~isnan(b));
+    b=b(~isnan(b));
 end
 return
 
@@ -201,16 +201,17 @@ features = zeros(num_of_people*sample_per_person,
 %% Parallel read files
 tic;
 for current_person = 1:num_of_people
-    disp(['Loading data from ' num2str(current_person) ' of \
-		' num2str(num_of_people) ' people.']);
+    disp(['Loading data from ' num2str(current_person) \
+        ' of ' num2str(num_of_people) ' people.']);
     for current_sample = 1:sample_per_person
-        file_id = (current_person - 1) * 10 + current_sample;
+        file_id = (current_person - 1) * 10 +
+                   current_sample;
         sample_filename = strtrim([data_dir filesep
-							file_list(file_id,:)]);
+                            file_list(file_id,:)]);
 
         mat = file2matrix(sample_filename,
-						  sample_width,
-						  sample_height);
+                          sample_width,
+                          sample_height);
 
         if (use_original_data)
             % Crop ROI from original data
@@ -231,15 +232,19 @@ Code for curvature extraction.
 
 \begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function [K,H,Pmax,Pmin] = surfature(X,Y,Z),
-% SURFATURE -  COMPUTE GAUSSIAN AND MEAN CURVATURES OF A SURFACE
-%   [K,H] = SURFATURE(X,Y,Z), WHERE X,Y,Z ARE 2D ARRAYS OF POINTS
-%   ON THE SURFACE.  K AND H ARE THE GAUSSIAN AND MEAN CURVATURES,
-%   RESPECTIVELY.
+% SURFATURE -  COMPUTE GAUSSIAN AND MEAN CURVATURES
+%   OF A SURFACE
+%
+%   [K,H] = SURFATURE(X,Y,Z),
+%           WHERE X,Y,Z ARE 2D ARRAYS OF POINTS
+%   ON THE SURFACE.  K AND H ARE THE GAUSSIAN AND MEAN
+%   CURVATURES, RESPECTIVELY.
 %
 %   SURFATURE RETURNS 2 ADDITIONAL ARGUEMENTS,
 %
-%   [K,H,Pmax,Pmin] = SURFATURE(...), WHERE Pmax AND Pmin ARE THE
-%   MINIMUM AND MAXIMUM CURVATURES AT EACH POINT, RESPECTIVELY.
+%   [K,H,Pmax,Pmin] = SURFATURE(...), WHERE Pmax AND
+%       Pmin ARE THE MINIMUM AND MAXIMUM CURVATURES AT
+%       EACH POINT, RESPECTIVELY.
 
 
 % First Derivatives
@@ -333,8 +338,10 @@ nearest_id = knnsearch(trainingset, testingset, 'k', 10);
 
 %% Interpret the match to person
 [total_training,~] = size(trainingset);
-training_sample_per_person = total_training / total * 10;
-nearest_person = ceil(nearest_id/training_sample_per_person);
+training_sample_per_person = total_training /
+                             total * 10;
+nearest_person = ceil(nearest_id/
+                 training_sample_per_person);
 
 %% Check performance
 [total_testing,~] = size(testingset);
@@ -342,7 +349,7 @@ testing_sample_per_person = total_testing / total * 10;
 
 for i = 1:total_testing
     correct(i) = eq(nearest_person(i),
-	           ceil(i/testing_sample_per_person));
+               ceil(i/testing_sample_per_person));
 end
 
 correct = correct';
@@ -376,14 +383,17 @@ noiseP = find(fxy>0.1);
 % 0.1 used for corrected and smoothed Sub3D,
 % 1 used for original Sub3D
 
-flag = ones(sizeH, sizeW); %1 for valid point, 0 for invalid point
+%1 for valid point, 0 for invalid point
+flag = ones(sizeH, sizeW);
+
 flag(noiseP) = 0;
 flag = 1 - flag;
 se = strel('disk',5);
 flag = imdilate(flag, se);
 flag = 1 - flag;
 noiseP = find(flag==0);
-meanZ = sum(sum(Z .* flag)) / (sizeH*sizeW - length(noiseP));
+meanZ = sum(sum(Z .* flag)) /
+        (sizeH*sizeW - length(noiseP));
 Z(noiseP) = 5;
 %neend't smooth
 % Z = smooth(Z, 7);
@@ -509,7 +519,8 @@ for i = 1:Ln
 %         figure;
 %         imshow(L0);
     else
-        %dilate the Lp (previous level) and than & with L0
+        % dilate the Lp (previous level) and then
+        % bitwise & with L0
         se = strel('disk',35 - 3*i);
         L1 = imdilate(Lp, se);
 %         figure; imshow(Lp);
@@ -538,7 +549,7 @@ Other functions.
 \begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
 function saveIm(data, nlevel)
 filename = ['../rawdata/bmp/Sub3D_I_4_9',
-			'_' num2str(nlevel), '.bmp'];
+            '_' num2str(nlevel), '.bmp'];
 imwrite(data, filename);
 
 
