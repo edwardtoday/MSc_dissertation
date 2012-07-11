@@ -1,0 +1,10 @@
+%!TEX root = chapter-methodology.tex
+\section{Feature Matching}
+\label{sec:methodology:featurematch}
+
+%TODO find the citaions
+The classification of biometrics speeds up the identification process by reducing the number of comparisons that must be made. There are two kinds of classification techniques: exclusive classification and continuous classification. Both fingerprint ~\cite{Henry:1900vc} and palmprint classifications ~\cite{Wu:2004kx} make use of exclusive classification. The main problem of this technique is that it uses only a small number of classes and the samples are unevenly distributed between them, with more than 90\% of the samples being in just two or three classes. A further problem with exclusive classification is that when classification is performed automatically, it is necessary to handle errors and rejected samples gracefully, which is a hard problem in practice. In contrast, for continuous classification, samples are not partitioned into disjoint classes but rather associated with numerical vectors which represent features of the samples. These feature vectors are created through a similarity-preserving transformation so that similar samples are mapped into close points in the multi-dimensional space ~\cite{Maltoni:wn}. The continuous classification technique is adopted. As the features combining MD, HCA and RLL are high-dimensional, LDA is used for dimension reduction. Coarse-level matching and Ranking Support Vector Machine (RSVM) are applied to the low dimensional vectors for efficient palmprint recognition.
+
+\input{ch-methodology/lda}
+\input{ch-methodology/naive}
+\input{ch-methodology/svm}

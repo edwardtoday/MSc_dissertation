@@ -1,0 +1,399 @@
+% ***********************************************************
+% Dissertation template and document class for
+%           The Hong Kong Polytechnic University
+% Author  : QING Pei <edwardtoday@gmail.com>
+% Adapted from: http://engineering.purdue.edu/~mark/puthesis/
+% ***********************************************************
+
+
+%%% For the electronic copy, use doublespacing,
+%   define "\printmode" to get all text black for readability
+\documentclass[12pt,lot,lof]{hkputhesis}
+\newcommand{\printmode}{}
+
+%%% For early drafts without some of the frontmatter
+% Also see the "ifodd" command below to disable more frontmatter
+%\documentclass[12pt]{hkputhesis}
+
+%%% The PDF version should be compatible with Acrobat 5.0 or above
+%   which make it PDF 1.4
+% \pdfoutput=1
+\pdfminorversion=4
+\pdfobjcompresslevel=0
+% \pdfimageresolution=300
+% \pdfpkresolution=300
+% or you could simply use a package to achieve this
+% \RequirePackage{pdf14}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Author & title page info
+
+\title{Palmprint Recognition with Three Dimensional Features}
+
+\submitted{June 2012}  % degree conferral date (January, April, June, September, or November)
+\copyrightyear{2012}  % year in which the copyright is secured by publication of the dissertation.
+\author{QING Pei}
+% \adviser{David Zhang}  %replace with the full name of your adviser
+% \departmentprefix{Program in}  % defaults to "Department of", but programs need to change this.
+% \department{Computing}
+\programme{Master of Science in Software Technology}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Tweak float placements
+% From: http://mintaka.sdsu.edu/GF/bibliog/latex/floats.html "Controlling LaTeX Floats"
+% and based on: http://www.tex.ac.uk/cgi-bin/texfaq2html?label=floats
+% LaTeX defaults listed at: http://people.cs.uu.nl/piet/floats/node1.html
+
+% Alter some LaTeX defaults for better treatment of figures:
+  % See p.105 of "TeX Unbound" for suggested values.
+  % See pp. 199-200 of Lamport's "LaTeX" book for details.
+  %   General parameters, for ALL pages:
+  \renewcommand{\topfraction}{0.85}	% max fraction of floats at top
+  \renewcommand{\bottomfraction}{0.6}	% max fraction of floats at bottom
+  %   Parameters for TEXT pages (not float pages):
+  \setcounter{topnumber}{2}
+  \setcounter{bottomnumber}{2}
+  \setcounter{totalnumber}{4}     % 2 may work better
+  \setcounter{dbltopnumber}{2}    % for 2-column pages
+  \renewcommand{\dbltopfraction}{0.66}	% fit big float above 2-col. text
+  \renewcommand{\textfraction}{0.15}	% allow minimal text w. figs
+  %   Parameters for FLOAT pages (not text pages):
+  \renewcommand{\floatpagefraction}{0.66}	% require fuller float pages
+	% N.B.: floatpagefraction MUST be less than topfraction !!
+  \renewcommand{\dblfloatpagefraction}{0.66}	% require fuller float pages
+
+% The documentclass already sets parameters to make a high penalty for widows and orphans.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Use packages
+
+\usepackage{amsfonts,amsmath}
+
+%%% For figures
+\usepackage{graphicx,epstopdf,subfigure}
+
+%%% for comments and listings
+\usepackage{verbatim}
+
+%%% For tables
+\usepackage{multirow}
+
+% Longtable lets you have tables that span multiple pages.
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage[tableposition=top]{caption}
+\captionsetup[table]{labelsep=period}  % Change colon in "Table ##:" to "."
+
+% Booktabs produces far nicer tables than the standard LaTeX tables.
+%   see: http://en.wikibooks.org/wiki/LaTeX/Tables
+\usepackage{booktabs}
+
+%set parameters for longtable:
+% default caption width is 4in for longtable, but wider for normal tables
+\setlength{\LTcapwidth}{\textwidth}
+
+%%% Date formatting
+\usepackage{datetime}
+
+%%% Set fonts
+% defines Adobe Times Roman (or equivalent) as default text font
+\usepackage{mathptmx}
+
+%%% Set line spacing
+\usepackage{setspace}
+\onehalfspacing
+
+%%% Turn off indentation globally
+\usepackage{parskip}
+\setlength{\parskip}{18pt} % to simulate a blank line between paragraphs
+
+%%% Page number at bottom right
+\usepackage{fancyhdr}
+\fancyhf{} % clear all header and footers
+\renewcommand{\headrulewidth}{0pt} % remove the header rule
+\rfoot{\fancyplain{\minsize\thepage\hspace{1.8em}}{\minsize\thepage\hspace{1.8em}}}
+\pagestyle{fancyplain}
+
+%%% Create hyperlinks for cross-references in the document.
+\usepackage{hyperref}
+\hypersetup{bookmarksnumbered}
+% copy the already-set title and author to use in the pdf properties
+\makeatletter
+\hypersetup{pdftitle=\@title,pdfauthor=\@author,pdfcreator=\@author}
+\makeatother
+
+%%% Setting the margins
+\usepackage[top=1in, left=1.8in, bottom=1.4in, right=1.1in]{geometry}
+
+%%% Change chapter heading format (with text shadow)
+\usepackage{shadowtext}
+\shadowoffsetx{1pt}
+\shadowoffsety{.7pt}
+\usepackage{titlesec}
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+\vspace*{-6pt}{\setlength{\parindent}{0pt} \raggedright \normalfont
+\bfseries\chaptersize \shadowtext{\chaptertitlename\ \thechapter \quad\ #1
+}}\vspace*{22pt}}
+\makeatother
+
+% change fontsize for section/subsection/subsubsection headings
+\titleformat{\section}{\normalfont\sectionsize}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\subsectionsize}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\subsubsectionsize}{\thesubsection}{1em}{}
+
+% Change spacing for headings. Please ignore the actual numbers.
+% They are tweaked by comparing PDF outputs to the Word template. --!
+\titlespacing*{\section}{0pt}{-12pt}{6pt}
+\titlespacing*{\subsection}{0pt}{-14pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{-16pt}{6pt}
+
+%%% Change heading format of References
+\renewcommand*{\bibname}{References}
+\makeatletter
+\renewenvironment{thebibliography}[1]{
+\clearpage
+\ifdefined\phantomsection
+\phantomsection
+\else
+\fi
+\addcontentsline{toc}{chapter}{\bibname}
+\vspace*{-12pt}
+\begin{doublespace}
+  {\subsectionsize\bfseries \bibname}
+\end{doublespace}
+\vspace*{6pt}
+\onehalfspacing
+\@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+\list{\@biblabel{\@arabic\c@enumiv}}{
+  \settowidth\labelwidth{\@biblabel{#1}}%
+  \leftmargin\labelwidth
+  \advance\leftmargin\labelsep
+  \@openbib@code
+  \usecounter{enumiv}%
+  \let\p@enumiv\@empty
+  \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+\sloppy
+\clubpenalty4000
+\@clubpenalty \clubpenalty
+\widowpenalty4000%
+\sfcode`\.\@m}{
+  \def\@noitemerr
+  {\@latex@warning{Empty `thebibliography' environment}}%
+  \endlist}
+ \makeatother
+
+%%% Set heading format for Appendix
+\usepackage{appendix}
+\usepackage{appendix}
+\makeatletter
+\newcommand\appendix@chapter[1]{
+	\refstepcounter{chapter}
+	\orig@chapter*{
+		\vspace*{-72pt}
+		\subsectionsize\bfseries Appendix \@Alph\c@chapter: #1
+		\vspace*{-36pt}
+	}
+	\addcontentsline{toc}{chapter}{Appendix \@Alph\c@chapter: #1}
+}
+\let\orig@chapter\chapter
+\g@addto@macro\appendix{\let\chapter\appendix@chapter}
+\makeatother
+
+
+%%% Set Table of Contents format
+\renewcommand\contentsname{Table of Contents}
+\usepackage[subfigure]{tocloft}
+\renewcommand{\cftbeforechapskip}{0pt}
+\renewcommand{\cftbeforetoctitleskip}{6pt}
+\renewcommand{\cftaftertoctitleskip}{12pt}
+% Set ToC heading size the same as that of Abstract
+\renewcommand\cfttoctitlefont{\subsectionsize\bfseries}
+\renewcommand\cftchapfont{\tocchapsize\bfseries}
+\renewcommand\cftchappresnum{Chapter } % prefix "Chapter " to chapter number in ToC
+\cftsetindents{chapter}{0em}{5em}      % set amount of indenting
+\makeatletter \renewcommand{\@dotsep}{1} \makeatother
+\renewcommand{\cftchapdotsep}{\cftdotsep}
+
+\renewcommand{\cftbeforeloftitleskip}{6pt}
+\renewcommand{\cftafterloftitleskip}{18pt}
+\renewcommand\cftloftitlefont{\subsectionsize\bfseries}
+\renewcommand\cftfigpresnum{Figure }  % prefix "Figure " to entries in LoF
+\cftsetindents{figure}{0em}{5em}      % set amount of indenting
+
+\renewcommand{\cftbeforelottitleskip}{6pt}
+\renewcommand{\cftafterlottitleskip}{18pt}
+\renewcommand\cftlottitlefont{\subsectionsize\bfseries}
+\renewcommand\cfttabpresnum{Table }	 % prefix "Table " to entries in LoT
+\cftsetindents{table}{0em}{5em}      % set amount of indenting
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Printed vs. online formatting
+
+\ifdefined\printmode
+% url package understands urls (with proper line-breaks) without hyperlinking them
+\usepackage{url}
+% turn off code highlighting
+\usepackage{listings}
+\lstset{language=Matlab,
+   keywords={break,case,catch,continue,else,elseif,end,for,function,
+      global,if,otherwise,persistent,return,switch,try,while},
+   basicstyle=\ttfamily,
+   keywordstyle=\bfseries\color{black},
+   commentstyle=\color{black},
+   stringstyle=\color{black},
+   numbers=left,
+   numberstyle=\tiny\color{black},
+   stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=4,
+   showspaces=false,
+   showstringspaces=false}
+\else
+% Online copy
+% turn on code highlighting
+\usepackage{color}
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\lstset{language=Matlab,
+   keywords={break,case,catch,continue,else,elseif,end,for,function,
+      global,if,otherwise,persistent,return,switch,try,while},
+   basicstyle=\ttfamily,
+   keywordstyle=\color{blue},
+   commentstyle=\color{gray},
+   stringstyle=\color{dkgreen},
+   numbers=left,
+   numberstyle=\tiny\color{red},
+   stepnumber=1,
+   numbersep=10pt,
+   backgroundcolor=\color{white},
+   tabsize=4,
+   showspaces=false,
+   showstringspaces=false}
+
+% make the page number rather than the text be the link for ToC entries
+%\hypersetup{linktocpage}
+
+\fi % print or online formatting
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Define commands
+
+% Define any custom commands that you want to use.
+% For example, highlight notes for future edits to the thesis
+%\newcommand{\todo}[1]{\textbf{\emph{TODO:}#1}}
+
+
+% create an environment that will indent text
+% see: http://latex.computersci.org/Reference/ListEnvironments
+% 	\raggedright makes them left aligned instead of justified
+\newenvironment{indenttext}{
+\begin{list}{}{ \itemsep 0in \itemindent 0in
+\labelsep 0in \labelwidth 0in
+\listparindent 0in
+\topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+\leftmargin 1em \rightmargin 0in
+\raggedright
+}
+\item
+}
+{\end{list}}
+
+% another environment that's an indented list, with no spaces
+% between items -- if we want multiple items/lines. Useful in
+% tables. Use \item inside the environment.
+% \raggedright makes them left aligned instead of justified
+\newenvironment{indentlist}{
+\begin{list}{}{ \itemsep 0in \itemindent 0in
+\labelsep 0in \labelwidth 0in
+\listparindent 0in
+\topsep 0in \partopsep 0in \parskip 0in \parsep 0in
+\leftmargin 1em \rightmargin 0in
+\raggedright
+}
+
+}
+{\end{list}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Front-matter
+
+% For early drafts, you may want to disable some of the frontmatter.
+% Simply change this to "\ifodd 1" to do so.
+\ifodd 0
+% front-matter disabled while writing chapters
+\renewcommand{\maketitlepage}{}
+\renewcommand*{\makeauthorshipstatement}{}
+\renewcommand*{\makeabstract}{}
+
+% you can just skip the \acknowledgements and \dedication commands
+% to leave out these sections.
+
+\else
+
+\abstract{
+% Import the abstract file.
+\input{abstract}
+}
+
+\acknowledgements{
+%I would like to thank...
+\input{acknowledgements}
+}
+
+\dedication{To my parents.}
+
+\fi  % disable frontmatter
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Hide some chapters
+
+%%% If you want to produce a pdf that includes only certain chapters, specify
+%   them with includeonly, in addition to including all chapters below.
+%\includeonly{ch-intro/chapter-intro}
+%%% You can also specify multiple chapters.
+%\includeonly{ch-intro/chapter-intro,ch-usage/chapter-usage}
+%\includeonly{chap1,chap2,chap3}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Notes:
+
+% Footnotes should be placed after punctuation.\footnote{place here.}
+% Generally, place citations before the period~\cite{anotherauthor}.
+% The proper usage for i.e., and e.g., include commas ``(e.g., option A, option B)''
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Import chapters
+\begin{document}
+
+\makefrontmatter
+\pagestyle{fancy}
+
+% If you've disabled frontmatter, you can insert the toc manually
+%\tableofcontents\clearpage
+
+% \include lets us split up the document (and each include starts a new page):
+\include{ch-intro/chapter-intro}
+\include{ch-pastwork/chapter-pastwork}
+\include{ch-methodology/chapter-methodology}
+\include{ch-experiment/chapter-experiment}
+\include{ch-conclusion/chapter-conclusion}
+
+% include your .bib file
+\bibliographystyle{unsrt}
+\bibliography{thesis}
+
+\appendix % all chapters following will be labeled as appendices
+\include{ch-appendicies/code}
+% \include{ch-appendicies/printing}
+
+\end{document}
+

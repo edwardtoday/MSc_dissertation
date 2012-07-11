@@ -1,0 +1,23 @@
+%!TEX root = ../thesis.tex
+\chapter{Introduction\label{ch:intro}}
+
+Palmprint has been increasingly recognized as unique and stable biometric characteristics for personal authentication. In the past decade, various methods based on two dimensional (2D) palmprint have been studied in depth. The 2D recognition techniques have proved to achieve high accuracy~\cite{Kong:2009hj}.
+
+In recent years, three dimensional (3D) palmprint recognition devices emerge and are quite promising because of the additional depth information gathered.
+
+Although the devices has been out for more than two years, most previous matching algorithms treat 3D information as a supplement to 2D texture images and used joint matching techniques to increase accuracy~\cite{Li:2011ur, Li:2010en, Zhang:2009dp, Zhang:2008kc, Zhang:2010uu}. Authentication with only the 3D information has not been thoroughly studied. The amount of useful information carried by the 3D data is still under investigation.
+
+There are two major challenges:
+
+\begin{enumerate}
+\item 3D devices, compared to 2D ones, are lower in resolution.
+\item The depth values are susceptible to movements of human hands and are therefore less stable than 2D texture information of palmprints.
+\end{enumerate}
+
+David et al. explore a 3D palmprint recognition approach by exploiting the 3D structural information of the palm surface~\cite{Zhang:2009dp, Zhang:2008kc}. The structured light imaging is used to acquire the 3D palmprint data, from which several types of unique features, including mean curvature image, Gaussian curvature image, and surface type, are extracted. A fast feature matching and score-level fusion strategy is proposed for palmprint matching and classification. Wei et al. propose an efficient joint 2D and 3D palmprint matching scheme~\cite{Li:2010en}. To align the samples accurately, features of lines and palm shape are extracted. A number of rules are then defined for matching the features efficiently for recognition purpose. Experiments show that the 3D features are not correlated with existing 2D ones and palmprint verification performance can be greatly improved by using both. Wei et al. also present an efficient scheme for 3D palmprint recognition~\cite{Li:2011ur}. They extract both line and orientation features by calculating and enhancing Gaussian-curvature and mean-curvature image or the 3D palmprint sample. A fusion of both types of features or scores is used for the 3D palmprint recognition experiments.
+
+Existing work has been done to utilize the 3D information for palmprint classification and sorting. The global features proposed for that purpose are fast in matching speed but low in accuracy compared to 2D techniques.
+
+Three features are extracted from 3D palmprint depth data: Maximum Depth, Horizontal Cross-section Area and Radial Line Length. Theses features are combined together as a brief description of a 3D palmprint sample. Viewing the feature set as a column vector, various data processing techniques can be applied to improve the recognition efficiency such as dimension reduction and machine learning.
+
+The rest of this work is organized as follows. Chapter \ref{ch:pastwork} briefly introduces the existing research efforts related to this topic. Chapter \ref{ch:methodology} describes the entire data processing procedures to extract features and use them for 3D palmprint recognition. Chapter \ref{ch:experiment} shows some experiment results. Chapter \ref{ch:conclusion} concludes the work and points out potentials for some future work.

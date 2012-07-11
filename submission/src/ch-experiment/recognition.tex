@@ -1,0 +1,51 @@
+%!TEX root = chapter-experiment.tex
+\section{Recognition Performance}
+\label{sec:experiment:recognition}
+
+We next carried out the 3D palmprint classification and recognition experiments using the first sample of each class in the training database as a template and the 4000 samples in the testing database as probes, making a total of 400 templates and 4000 probes. The performance of classification and recognition is usually measured by error rate and penetration rate calculated in ~\cite{Maltoni:wn} as follows
+
+\begin{equation}
+\text{error rate} = \frac{\text{number of false match}}{\text{total number of probe}} \times 100\%
+\end{equation}
+
+\begin{equation}
+\text{penetration rate} = \frac{\text{number of accessed template}}{\text{total number of template in the database}} \times 100\%
+\label{eq:experiment:prate}
+\end{equation}
+
+Obviously there is a trade-off between error rates and penetration rates. Generally speaking, if there is no classification, there are two retrieval strategies:
+
+\begin{enumerate}
+\item all of the templates in the database are visited and the template that gives the best matching score is regarded as the matched template, if the matching score is less than a given threshold $\Psi_T$
+\item given a threshold $\Psi_T$, the search continues until a match is found that is below that threshold
+\end{enumerate}
+
+Three 3D palmprint recognition matching approaches are used
+
+\begin{enumerate}
+\item no classification
+\item coarse-level matching
+\item RSVM
+\end{enumerate}
+
+For no classification, we matched using the local feature MCI as described in ~\cite{Zhang:2009dp}. The process we used for coarse-level matching is illustrated in Section ~\ref{sec:methodology:featurematch} and involves fine-level matching using the local feature MCI. A single instance of coarse-level matching requires only $1/36000$ of the time it takes to do fine-level matching (coarse-level matching only needs 15 operations while fine-level matching must do $128\times128\times(8\times4+1)$ operations, where $128\times128$ is the size of ROI and $8\times4+1$ is the number of times the template is shifted plus the original unshifted case). For the above two approaches, the penetration rate and the error rate will vary with different thresholds $\Psi_t$. As for RSVM, we use the RSVM algorithm described in Section ~\ref{ssec:methodology:svm} to rank the templates in the database, and then match the top $\rho$ percent by local feature MCI with the best matching score regarded as the matched template if this score is less than a given constant threshold $\Psi_T$. We can see from ~\ref{eq:experiment:prate} that $\rho$ is equal to the penetration rate. Given different thresholds $\Psi_t$ and $\rho$, we carried out a series of 3D palmprint recognition experiments.
+
+\input{ch-experiment/tables/noclass}
+\input{ch-experiment/tables/coarse}
+\input{ch-experiment/tables/svm}
+
+Table ~\ref{tab:experiment:noclass}, ~\ref{tab:experiment:coarse} and ~\ref{tab:experiment:svm} difference in penetration rate and error rate using different recognition strategies. Even at an approximately equal error rate, the proposed coarse-level matching and RSVM approaches get a much lower penetration rate than the no classification approach. Obviously RSVM has the best performance but requires an additional off-line training process compared to coarse-level matching.
+
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=\linewidth]{ch-experiment/figures/recognition}
+\caption{Penetration rate and error rate with different matching strategies}
+\label{fig:experiment:recognition}
+\end{center}
+\end{figure}
+
+Figure ~\ref{fig:experiment:recognition} shows the results in a single plot.
+
+\input{ch-experiment/tables/time}
+
+Table ~\ref{tab:experiment:time} shows the difference in time consumption for one probe. Due to the lower penetration rate, the running times are greatly reduced.

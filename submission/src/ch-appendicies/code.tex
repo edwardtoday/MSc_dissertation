@@ -1,0 +1,573 @@
+%!TEX root = ../thesis.tex
+\chapter{Core Matlab Code\label{ch:code}}
+
+
+
+\singlespacing
+
+Create large arrays without asking for contiguous memory.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+function result = createArrays(nArrays, arraySize, datatype)
+%CREATEARRAYS
+% This creates an cell array which does NOT require
+% contiguous memory.
+%
+% To use it:
+%   myArray = createArrays(numberOfArrays, [x y], 'single');
+%
+% To access the elements:
+%   myArray{1}{2,3} = 10;
+%   myArray{1} = zeros(500, 800, 'single');
+    result = cell(1, nArrays);
+    for i = 1 : nArrays
+        result{i} = zeros(arraySize, datatype);
+    end
+end
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to find the reference plane.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+function [ d_ref ] = find_ref_plane( roi )
+%FIND_REF_PLANE Find the depth of reference plane of an ROI
+%   Detailed explanation goes here
+
+    [~,roi_size] = size(roi);
+
+    refplane = roi(1:(roi_size*0.25),
+     (roi_size*0.25):(roi_size*0.9));
+
+    d_ref = max(max(refplane));
+
+end
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to extract the X coordinates from original data.
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+clear;
+
+prefix = '..\..\3D_palm';
+
+%% File to process
+load_dir = [prefix filesep '3DPalm_xyz'];
+file_mask = [load_dir filesep '*.dat'];
+file_list = dir(file_mask);
+file_list = char({file_list.name});
+
+%% Get X coordinates from file
+tic;
+dat_file = reshape(dlmread([load_dir filesep file_list(1,:)]),
+               768,576,3);
+palmX=dat_file(:,1,1);
+
+%% Save result to file
+save_dir = ['output'];
+save([save_dir filesep '3Dpalm_x.mat'],'palmX');
+toc;
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to remove outliers from a vector.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+function [b,idx,outliers] = deleteoutliers(a,alpha,rep);
+% [B, IDX, OUTLIERS] = DELETEOUTLIERS(A, ALPHA, REP)
+%
+%   For input vector A, returns a vector B with
+%   outliers (at the significance level alpha) removed.
+%   Also, optional output argument idx returns the
+%   indices in A of outlier values. Optional output
+%   argument outliers returns the outlying values in A.
+%
+%   ALPHA is the significance level for determination of outliers.
+%   If not provided, alpha defaults to 0.05.
+%
+%   REP is an optional argument that forces the replacement of removed elements with NaNs to
+%   presereve the length of a.
+%
+%   This is an iterative implementation of the Grubbs
+%   Test that tests one value at a time. In any given
+%   iteration, the tested value is either thehighest
+%   value, or the lowest, and is the value that is
+%   furthest from the sample mean. Infinite elements
+%   are discarded if rep is 0, or replaced with NaNs
+%   if rep is 1.
+
+if nargin == 1
+    alpha = 0.05;
+    rep = 0;
+elseif nargin == 2
+    rep = 0;
+elseif nargin == 3
+    if ~ismember(rep,[0 1])
+        error('Please enter a 1 or a 0 for optional
+               argument rep.')
+    end
+elseif nargin > 3
+    error('Requires 1,2, or 3 input arguments.');
+end
+
+if isempty(alpha)
+    alpha = 0.05;
+end
+
+b = a;
+b(isinf(a)) = NaN;
+
+%Delete outliers:
+outlier = 1;
+while outlier
+    tmp = b(~isnan(b));
+    meanval = mean(tmp);
+    maxval = tmp(find(abs(tmp-mean(tmp))==
+                      max(abs(tmp-mean(tmp)))
+                     ));
+    maxval = maxval(1);
+    sdval = std(tmp);
+    tn = abs((maxval-meanval)/sdval);
+    critval = zcritical(alpha,length(tmp));
+    outlier = tn > critval;
+    if outlier
+        tmp = find(a == maxval);
+        b(tmp) = NaN;
+    end
+end
+
+if nargout >= 2
+    idx = find(isnan(b));
+end
+if nargout > 2
+    outliers = a(idx);
+end
+if ~rep
+    b=b(~isnan(b));
+end
+return
+
+function zcrit = zcritical(alpha,n)
+%ZCRIT = ZCRITICAL(ALPHA,N)
+% Computes the critical z value for rejecting outliers
+% (GRUBBS TEST)
+
+tcrit = tinv(alpha/(2*n),n-2);
+zcrit = (n-1)/sqrt(n)*(sqrt(tcrit^2/(n-2+tcrit^2)));
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code for batch feature extraction.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+clear;
+
+%% Files to process
+save_dir = ['output'];
+
+use_original_data = true;
+% Toggle this for data source selection
+% use_original_data = false;
+
+if (use_original_data)
+    data_dir = ['..' filesep 'rawdata'];
+    file_mask = [data_dir filesep '*.zonly'];
+    sample_width = 768;
+    sample_height = 576;
+    roi_size = 400;
+else
+    data_dir = ['..' filesep 'rawdata' filesep 'roi'];
+    file_mask = [data_dir filesep '*.dat'];
+    sample_width = 128;
+    sample_height = 128;
+    roi_size = 128;
+end
+
+file_list = dir(file_mask);
+file_list = char({file_list.name});
+
+num_of_samples = length(file_list);
+sample_per_person = 10;
+num_of_people = num_of_samples/sample_per_person;
+% Toggle this for limited number of files
+// num_of_people = 100;
+
+feature_dimension = roi_size;
+% feature_dimension = roi_size*roi_size;
+
+features = zeros(num_of_people*sample_per_person,
+                 feature_dimension);
+
+%% Parallel read files
+tic;
+for current_person = 1:num_of_people
+    disp(['Loading data from ' num2str(current_person) \
+        ' of ' num2str(num_of_people) ' people.']);
+    for current_sample = 1:sample_per_person
+        file_id = (current_person - 1) * 10 +
+                   current_sample;
+        sample_filename = strtrim([data_dir filesep
+                            file_list(file_id,:)]);
+
+        mat = file2matrix(sample_filename,
+                          sample_width,
+                          sample_height);
+
+        if (use_original_data)
+            % Crop ROI from original data
+            mat = mat(235:(234+roi_size),69:(68+roi_size));
+        end;
+
+        % Extract feature for this sample
+        features(file_id,:) = calc_feature(mat);
+    end
+end
+
+save(['output' filesep 'features.mat'], 'features');
+toc;
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code for curvature extraction.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+function [K,H,Pmax,Pmin] = surfature(X,Y,Z),
+% SURFATURE -  COMPUTE GAUSSIAN AND MEAN CURVATURES
+%   OF A SURFACE
+%
+%   [K,H] = SURFATURE(X,Y,Z),
+%           WHERE X,Y,Z ARE 2D ARRAYS OF POINTS
+%   ON THE SURFACE.  K AND H ARE THE GAUSSIAN AND MEAN
+%   CURVATURES, RESPECTIVELY.
+%
+%   SURFATURE RETURNS 2 ADDITIONAL ARGUEMENTS,
+%
+%   [K,H,Pmax,Pmin] = SURFATURE(...), WHERE Pmax AND
+%       Pmin ARE THE MINIMUM AND MAXIMUM CURVATURES AT
+%       EACH POINT, RESPECTIVELY.
+
+
+% First Derivatives
+[Xu,Xv] = gradient(X);
+[Yu,Yv] = gradient(Y);
+[Zu,Zv] = gradient(Z);
+
+% Second Derivatives
+[Xuu,Xuv] = gradient(Xu);
+[Yuu,Yuv] = gradient(Yu);
+[Zuu,Zuv] = gradient(Zu);
+
+[Xuv,Xvv] = gradient(Xv);
+[Yuv,Yvv] = gradient(Yv);
+[Zuv,Zvv] = gradient(Zv);
+
+% Reshape 2D Arrays into Vectors
+Xu = Xu(:);   Yu = Yu(:);   Zu = Zu(:);
+Xv = Xv(:);   Yv = Yv(:);   Zv = Zv(:);
+Xuu = Xuu(:); Yuu = Yuu(:); Zuu = Zuu(:);
+Xuv = Xuv(:); Yuv = Yuv(:); Zuv = Zuv(:);
+Xvv = Xvv(:); Yvv = Yvv(:); Zvv = Zvv(:);
+
+Xu          =   [Xu Yu Zu];
+Xv          =   [Xv Yv Zv];
+Xuu         =   [Xuu Yuu Zuu];
+Xuv         =   [Xuv Yuv Zuv];
+Xvv         =   [Xvv Yvv Zvv];
+
+% First fundamental Coeffecients of the surface (E,F,G)
+E           =   dot(Xu,Xu,2);
+F           =   dot(Xu,Xv,2);
+G           =   dot(Xv,Xv,2);
+
+m           =   cross(Xu,Xv,2);
+p           =   sqrt(dot(m,m,2));
+n           =   m./[p p p];
+
+% Second fundamental Coeffecients of the surface (L,M,N)
+L           =   dot(Xuu,n,2);
+M           =   dot(Xuv,n,2);
+N           =   dot(Xvv,n,2);
+
+[s,t] = size(Z);
+
+% Gaussian Curvature
+K = (L.*N - M.^2)./(E.*G - F.^2);
+K = reshape(K,s,t);
+
+% Mean Curvature
+H = (E.*N + G.*L - 2.*F.*M)./(2*(E.*G - F.^2));
+H = reshape(H,s,t);
+
+% Principal Curvatures
+Pmax = H + sqrt(H.^2 - K);
+Pmin = H - sqrt(H.^2 - K);
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to test feature performance.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+%% Load features
+load(['output' filesep 'features.mat']);
+
+[total,~] = size(features);
+
+%% Split into training set and testing set
+training_id=unique([
+    1:10:total
+    2:10:total
+    3:10:total
+    4:10:total
+    5:10:total
+    6:10:total
+    ]);
+
+trainingset = features(training_id,:);
+
+test_id=unique([
+    7:10:total
+    8:10:total
+    9:10:total
+    10:10:total
+    ]);
+
+testingset = features(test_id,:);
+
+%% Find match for each test input
+nearest_id = knnsearch(trainingset, testingset, 'k', 10);
+
+%% Interpret the match to person
+[total_training,~] = size(trainingset);
+training_sample_per_person = total_training /
+                             total * 10;
+nearest_person = ceil(nearest_id/
+                 training_sample_per_person);
+
+%% Check performance
+[total_testing,~] = size(testingset);
+testing_sample_per_person = total_testing / total * 10;
+
+for i = 1:total_testing
+    correct(i) = eq(nearest_person(i),
+               ceil(i/testing_sample_per_person));
+end
+
+correct = correct';
+
+accuracy = sum(correct)/total_testing
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to create mask according to gradient.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+sizeH = 200; %
+sizeW = 200; %
+lnum = 8;
+
+pixDis = 0.28;
+% load facesMatrix64.mat;
+temp = pixDis * ((sizeH-2)/2+0.5);
+[X,Y] = meshgrid(-temp : pixDis : temp);
+
+fid = fopen('../rawdata/Sub3D_I_3_0.dat', 'r');
+% fid = fopen('../rawdata/Sub3D_II_100_0.dat', 'r');
+
+Z = fread(fid, [sizeH,sizeW], 'double');
+fclose(fid);
+
+[fx, fy] = gradient(Z);
+fxy = fx.^2 + fy.^2;
+
+noiseP = find(fxy>0.1);
+% 0.1 used for corrected and smoothed Sub3D,
+% 1 used for original Sub3D
+
+%1 for valid point, 0 for invalid point
+flag = ones(sizeH, sizeW);
+
+flag(noiseP) = 0;
+flag = 1 - flag;
+se = strel('disk',5);
+flag = imdilate(flag, se);
+flag = 1 - flag;
+noiseP = find(flag==0);
+meanZ = sum(sum(Z .* flag)) /
+        (sizeH*sizeW - length(noiseP));
+Z(noiseP) = 5;
+%neend't smooth
+% Z = smooth(Z, 7);
+
+%%for show the mask which get rid of bad quality region
+% flag(1,:) = 0; flag(end,:) = 0;
+% flag(:,1) = 0; flag(:,end) = 0;
+% imshow(flag');
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to determine the reference plane and MD.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+%calculate the reference 0 plane
+% use Z(6:35, 65:136) for calculate the mean value as reference 0
+refRect = Z(6:35, 65:136);
+refFlag = flag(6:35, 65:136);
+refVal = sum(sum(refRect .* refFlag)) / sum(sum(refFlag));
+Z = Z - refVal;
+
+%search the min point in Z(65:190, 41:160)
+rectforMin = Z(65:190, 41:160);
+rectforMin(1:35, 1:25) = 5;
+rectforMin(1:35, end-25:end) = 5;
+% flagforMin = Z(65:190, 41:160);
+
+palmH = min(min(rectforMin));
+ind = find(Z == palmH);
+% Z(ind) = 5;
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Code to grow each level from the reference point.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+%find the level regions from 0 to deepest point
+%find the region > 0
+palmH = -palmH;
+Z = -Z;
+Ln = 8;
+step = palmH / Ln;
+levelH = [0:step:palmH];
+
+for i = 1:Ln
+    L0 = zeros(sizeH, sizeW);
+    L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
+    %the 1st level
+    if i==1
+        [L,num] = bwlabel(L0);
+
+        if num > 1
+            for j = 1:num
+                indL = find(L==j);
+                if length(find(indL==ind)) > 0
+                    L0(:,:) = 0;
+                    L0(indL) = 1;
+                end
+            end
+        end
+        Lp = L0;
+        L0 = logical(L0');
+        [x, y] = find(L0);
+        temp = find(L0);
+        mx = mean(x);
+        my = mean(y);
+
+%         saveIm(L0, i);
+        figure;
+        imshow(L0);
+    else
+        %dilate the Lp (previous level) and than & with L0
+        se = strel('disk',35 - 3*i);
+        L1 = imdilate(Lp, se);
+        L0 = L0 & L1;
+        Lp = L0;
+        L0 = L0';
+%         saveIm(L0, i);
+        figure;
+        imshow(L0);
+    end
+end
+\end{lstlisting} %\end{minted}
+\clearpage
+
+
+Code to show the growed levels.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+%for show
+im_level = zeros(sizeH, sizeW); %for show the levels
+%find the level regions from 0 to deepest point
+%find the region > 0
+palmH = -palmH;
+Z = -Z';
+Ln = 8;
+step = palmH / Ln;
+levelH = [0:step:palmH];
+for i = 1:Ln
+    L0 = zeros(sizeH, sizeW);
+    L0( find( Z>=levelH(Ln-i+1) ) ) = 1;
+
+    %the 1st level
+    if i==1
+        [L,num] = bwlabel(L0);
+        if num > 1
+            for j = 1:num
+                indL = find(L==j);
+                if length(find(indL==ind)) > 0
+                    L0(:,:) = 0;
+                    L0(indL) = 1;
+                end
+            end
+        end
+        Lp = L0;
+        [x, y] = find(L0);
+        temp = find(L0);
+        mx = round(mean(x));
+        my = round(mean(y));
+        im_level(temp) = 155;
+
+%         saveIm(L0, i);
+%         figure;
+%         imshow(L0);
+    else
+        % dilate the Lp (previous level) and then
+        % bitwise & with L0
+        se = strel('disk',35 - 3*i);
+        L1 = imdilate(Lp, se);
+%         figure; imshow(Lp);
+%         figure; imshow(L1);
+        L0 = L0 & L1;
+%         figure; imshow(L0);
+        Ltemp = L0 - Lp;
+%         figure; imshow(Ltemp);
+        Lp = L0;
+        temp = find(Ltemp);
+        im_level(temp) = 255-(i-1)*30;
+%         saveIm(L0, i);
+%         figure;
+%         imshow(L0);
+    end
+end
+
+im_level = uint8(im_level);
+% imshow(im_level);
+% imwrite(im_level, 'figures/im_levels.bmp');
+\end{lstlisting} %\end{minted}
+\clearpage
+
+Other functions.
+
+\begin{lstlisting} %\begin{minted}[fontsize=\small,fontfamily=courier,frame=lines,linenos]{matlab}
+function saveIm(data, nlevel)
+filename = ['../rawdata/bmp/Sub3D_I_4_9',
+            '_' num2str(nlevel), '.bmp'];
+imwrite(data, filename);
+
+
+function [z] = smooth(z, fs)
+% z -- 128*128
+% n -- filter size
+t = floor(fs/2)-1;
+for i = 0:t;
+    [m,n] = size(z);
+    z = [z(:, 2*i+1) z(:,:) z(:, n-2*i)];
+end
+
+for i = 0:t;
+    [m,n] = size(z);
+    z = [z(2*i+1, :); z(:,:); z(m-2*i, :)];
+end
+
+h = ones(fs,fs)/(fs*fs);
+z = filter2(h, z, 'valid');
+\end{lstlisting} %\end{minted}
+\clearpage
